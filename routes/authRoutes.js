@@ -30,6 +30,7 @@ router.patch('/resetpassword/:id', authController.resetpassword_patch);
 
 router.get('/signup', authController.signup_get);
 router.get('/about', authController.about_get);
+router.get('/appointmentWithoutLogin', authController.appointmentWithoutLogin_get);
 router.get('/faq', authController.faq_get);
 
 

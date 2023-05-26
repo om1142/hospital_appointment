@@ -1693,6 +1693,15 @@ const about_get = (req, res) => {
     }
 }
 
+const appointmentWithoutLogin_get = (req, res) => {
+    try {
+        res.render('appointmentWithoutLogin');
+    }
+    catch (error) {
+        res.status(404).render('404', { err: "about not found" });
+    }
+}
+
 const faq_get = (req, res) => {
     try {
         res.render('faq');
@@ -1903,6 +1912,7 @@ module.exports = {
     manager_about_get,
     manager_faq_get,
     about_get,
+    appointmentWithoutLogin_get,
     faq_get,
 
 
