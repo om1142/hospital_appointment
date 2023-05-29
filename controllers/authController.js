@@ -111,6 +111,7 @@ const verifyMail = async (req, res) => {
 }
 
 
+
 const login_get = (req, res) => {
     const err = undefined;
     res.render('login', { title: 'Login', err });
@@ -118,20 +119,39 @@ const login_get = (req, res) => {
 const login_post = async (req, res) => {
     try {
 
-        const username = req.body.username;
+        //const username = req.body.username;
+        const phone = req.body.phone;
         const password = req.body.password;
-        const role = req.body.role;
+        //const role = req.body.role;
 
 
-        const customer = await User.findOne({ username, role });
+        //const customer = await User.findOne({ username, role });
+        const customer = await User.findOne({phone});
+        //console.log(customer.isVerified);
 
+        if (customer.isVerified) {
+            //console.log("AAAA");
+            // if (customer.isVerified === false) {
+            //     const err = 'Please verify your mail to login.';
+            //     res.status(500).render('login', { err });
+            // }
+            //const customer = await User.findOne({ phone });
+            const auth = await bcrypt.compare(password, customer.password);
+            //console.log(auth);
+            // const isMatch = await bcrypt.compare(password, user.password);
+            if (customer && auth) {
 
-        if (customer) {
-            if (customer.isVerified === false) {
-                const err = 'Please verify your mail to login.';
+                // req.session.user_id = user._id;
+                // const user = await User.login(username, password, role);
+                res.cookie('jwt', '', { maxAge: 1 });
+                const token = createToken(customer._id);
+                res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+                res.status(201).render('about', { customer, err: 'You have logged in successfully.' });
+            } else {
+                const err = 'Invalid login details.';
                 res.status(500).render('login', { err });
             }
-            if (role === 'customer') {
+            /*if (role === 'customer') {
                 // console.log(req.body);
                 const customer = await User.findOne({ username, role });
                 const auth = await bcrypt.compare(password, customer.password);
@@ -181,7 +201,7 @@ const login_post = async (req, res) => {
                     res.status(500).render('login', { err });
                 }
 
-            }
+            }*/
         }
         else {
             const err = 'Invalid login details.';
@@ -219,24 +239,25 @@ const signup_post = async (req, res) => {
     if (password === cpassword) {
         const user = new User({
             fullname: req.body.fullname,
-            username: req.body.username,
+            //username: req.body.username,
             email: req.body.email,
             password: req.body.password,
             phone: req.body.phone,
-            role: req.body.role,
+           // role: req.body.role,
             gender: req.body.gender,
             date: req.body.birthdate,
         });
         //verify username and email in the database if already exists
 
-        const foundUser = await User.findOne({ username: user.username });
-        console.log(foundUser);
+        //const foundUser = await User.findOne({ username: user.username });
+        const foundUser = await User.findOne({ phone: user.phone });
+        //console.log(foundUser);
         if (foundUser) {
-            const err = 'Username already exists.';
+            const err = 'Phone number already exists.';
             res.status(500).render('signup', { err });
         }
         const foundEmail = await User.findOne({ email: user.email });
-        console.log(foundEmail);
+        //console.log(foundEmail);
 
         if (foundEmail) {
             res.status(500).render('signup', { err: "Email already exists." });
@@ -256,11 +277,12 @@ const signup_post = async (req, res) => {
         //if not exists then save the user in the database
         user.save().then(async (result) => {
             // sendVerifyMail(req.body.fullname, req.body.email, result._id, req.body.role);
-            const sendMail = await sendVerifyMail(req.body.fullname, req.body.email, result._id, req.body.role, req);
-            if (req.body.role === 'cadet')
-                res.status(200).render('login', { err: 'Please ask you manager to confirm your account.' });
-            else
-                res.status(200).render('login', { err: 'Please verify your email to log in successfully.' });
+            // const sendMail = await sendVerifyMail(req.body.fullname, req.body.email, result._id, req.body.role, req);
+            // if (req.body.role === 'cadet')
+            //     res.status(200).render('login', { err: 'Please ask you manager to confirm your account.' });
+            // else
+            //     res.status(200).render('login', { err: 'Please verify your email to log in successfully.' });
+            res.status(201).render('about', { err: 'You have logged in successfully.' });
         }).catch((err) => {
             console.log(err);
         }

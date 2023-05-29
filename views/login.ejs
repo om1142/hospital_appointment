@@ -1,5 +1,5 @@
 <%- include('./partials/header') %>
-
+ 
     <div class="bg-lblue">
         <div style="padding-top: 100px;">
     <div id="wrapper">
@@ -41,9 +41,9 @@
 
                                     <form action="/login" method="post">
                                         <div class="form-floating mb-3">
-                                            <input type="number" class="form-control" id="floatingInput" name="username"
-                                                placeholder="something">
-                                            <label for="floatingInput">Phone number</label>
+                                            <input type="number" class="form-control" id="phone-number" name="phone"
+                                                placeholder="012345678" pattern="[0-9]{10}" required>
+                                            <label for="phone-number">Phone number</label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="floatingPassword"

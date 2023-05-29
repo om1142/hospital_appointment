@@ -4,16 +4,17 @@ const bcrypt = require('bcrypt');
 const { isEmail } = require('validator');
 
 
+
 const userSchema = new Schema({
     fullname: {
         type: String,
         required: true
     },
-    username: {
-        type: String,
-        required: [true, 'please enter a username'],
-        unique: true
-    },
+    // username: {
+    //     type: String,
+    //     required: [true, 'please enter a username'],
+    //     unique: true
+    // },
     email: {
         type: String,
         required: [true, 'please enter an email'],
@@ -29,11 +30,11 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    role: {
-        type: String,
-        required: true,
-        enum: ['manager', 'cadet', 'customer']
-    },
+    // role: {
+    //     type: String,
+    //     required: true,
+    //     enum: ['manager', 'cadet', 'customer']
+    // },
     gender: {
 
         type: String,
@@ -46,7 +47,8 @@ const userSchema = new Schema({
     },
     isVerified: {
         type: Boolean,
-        default: false
+        //default: false
+        default: true
     }
 });
 
@@ -55,8 +57,10 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
-userSchema.statics.login = async function (username, password , role) {
-    const user = await this.findOne({ username , role});
+//userSchema.statics.login = async function (username, password , role) {
+userSchema.statics.login = async function (phone, password) {
+    //const user = await this.findOne({ username , role});
+    const user = await this.findOne({ phone });
     if (user) {
         const auth = await bcrypt.compare(password, user.password);
         if(auth){
@@ -64,7 +68,7 @@ userSchema.statics.login = async function (username, password , role) {
         }
         throw Error('incorrect password');
     }
-    throw Error('incorrect username');
+    throw Error('incorrect Phone number');
 }
 
 
