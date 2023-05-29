@@ -1,8 +1,10 @@
 <%- include('./partials/header') %>
 
 <div class="bg-lblue">
+    <div style="padding-top: 100px;">
 <div id="wrapper">
     <%- include('./partials/nav') %>
+</div>
     <% if(err) {%>
 
         <% if(err.includes("Success") || err.includes("success") || err.includes("Successfully") ||
@@ -31,7 +33,7 @@
 
 
     <div class="container bg-dark mt-3 col-md-6 col-xl-6 px-5 py-4 mb-5 rounded-5">
-        <div class="text-center fs-2 mt-3 text-light">SignUp</div>
+        <div class="text-center fs-2 mt-3 text-light">Sign Up</div>
         <div class="text-center mb-5 text-light">Provide the details.</div>
 
         <form action="/signup" method="post">
