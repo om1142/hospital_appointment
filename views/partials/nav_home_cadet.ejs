@@ -1,32 +1,37 @@
 <div class="container sticky-top">
-    <nav class="navbar navbar-expand-lg mb-4 mt-3">
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top shadow p-1 mb-5">
         <div class="container-fluid">
-            <a class="navbar-brand fs-3 text-dark" href="/cadet/<%=cadet.username%>">
-                <img src="/photos/logo.png" alt="Bootstrap" width="70" height="70">
+            <a class="navbar-brand" href="/customer/<%=customer.phone%>">
+                <img src="/photos/SYMBOL.png" alt="Bootstrap" width="40" height="44">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse fs-4" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/cadet/<%=cadet.username%>">Home</a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="/cadet/<%=cadet.username%>/about">About</a>
+                        <a class="nav-link active me-2" aria-current="page" href="/customer/<%=customer.phone%>">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/cadet/<%=cadet.username%>/faq">FAQ</a>
+                        <a class="nav-link" href="/customer/<%=customer.phone%>/about">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/<%=customer.phone%>/appointment">Appointment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/<%=customer.phone%>/faq">History</a>
                     </li>
                 </ul>
 
+                <!-- <form class="d-flex">
+                    <button class="btn btn-outline-warning me-2" type="button">Logout</button>
+                </form> -->
                 <div class="nav-link me-2 my-2">
                     <form action = "/home" method="post">
                         <form action = "/home" method="post">
-                            <button class="btn btn-primary" type="submit">Logout</button>                        
+                            <button class="btn btn-outline-warning me-2" type="submit">Logout</button>                        
                         </form>                     
                     </form>
                 </div>

@@ -1,75 +1,38 @@
-<%- include('../partials/header_customer') %>
+<%- include('../partials/header_cadet') %>
 
 
+<div class="bg-lblue">
+  <div style="padding-top: 100px;">
   <div id="wrapper">
-    <%- include('../partials/nav_home_customer') %>
 
-      <div class="container">
+    <%- include('../partials/nav_home_cadet') %>
+  </div>
+
+
+      <!-- <div class="container">
+
 
         <div class="row mb-5">
           <div class="col-12 col-lg-3">
             <div class="list-group text-center make-sticky ">
+        
+                
+        </div> -->
+        
+        <!-- <p class="text-center" style="padding-top: 100px; color: darkblue; text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5); font-size: 70px;"> Welcome "username" </p> -->
 
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <div class="profile my-4 table-striped-columns">
-                      <div class="mb-3"><img src="/photos/person_logo.svg" alt="person" width="20%"></div>
-                      <div class="fs-3">
-                        <%= customer.fullname%>
-                      </div>
-                      <div class="fs-5">Customer</div>
-                    </div>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="table-active">
-                    <td><a href="/customer/<%= customer.username%>"
-                        class="list-group-item list-group-item-action">Home</a></td>
-                  </tr>
-                  <tr>
-                    <td><a href="/customer/<%= customer.username%>/view"
-                        class="list-group-item list-group-item-action">View
-                        profile</a></td>
-                  </tr>
-                  <tr>
-                    <td><a href="/customer/<%= customer.username%>/edit"
-                        class="list-group-item list-group-item-action">Edit
-                        Profile</a></td>
-                  </tr>
-                  <tr>
-                    <td><a href="/customer/<%= customer.username%>/changepassword"
-                        class="list-group-item list-group-item-action">Change
-                        password</a></td>
-                  </tr>
+          <div class="col-12">
 
-                  <tr>
-                    <td><a href="/customer/<%= customer.username%>/paymenthistory"
-                        class="list-group-item list-group-item-action">Payment History</a></td>
-                  </tr>
-                  <tr>
-                    <td><a href="/customer/<%= customer.username%>/feedback"
-                        class="list-group-item list-group-item-action">Feedback</a></td>
-                  </tr>
-                </tbody>
-              </table>
-
-
-
-            </div>
-          </div>
-          <div class="col-12 col-lg-9">
-
-            <div class="container text-center fs-2 my-5">
-              Welcome <a href="/customer/<%= customer.username%>">
+            <div class="container text-center fs-2 mb-5">
+              Welcome, 
                 <%= customer.fullname%>
-              </a>, </br> <span class="fs-3">Look what delicious items are waiting for
-                you.</span>
+                <!-- , </br> <span class="fs-3">Look what delicious items are waiting for
+                you.</span> -->
             </div>
             <% if(err)  {%>
 
               <% if(err.includes("Success") || err.includes("success") || err.includes("Successfully") || err.includes("successfully") || err.includes("Successfull") || err.includes("successfull") )  {%>
-      <div class="container">
+                  <div class="container">
                   <div class="container px-2 rounded-1 text-center">
                       <div class="alert alert-success alert-dismissible fade show" role="alert">
                           <%=err %>
@@ -79,19 +42,83 @@
                   </div>
                     <% } else { %>
       
-                  
-                      <div class="container">
-                        <div class="container px-2 rounded-1 text-center">
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <%=err %>
-                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                          </div>
-                        </div>
+      <div class="container">
+          <div class="container px-2 rounded-1 text-center">
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <%=err %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </div>
+          </div>
             <% } %>
             <% } %>
 
-            <div class="container">
+
+            <div class="appointment-container pt-5 mt-5 m-5">
+              <h2 class="text-center pb-5">Your Upcoming Appointments are here</h2>
+              <ul class="appointment-list">
+                <li>
+                  <div class="appointment-card">
+                    <div class="appointment-date">May 30, 2023</div>
+                    <div class="appointment-time">10:00 AM</div>
+                    <div class="appointment-doctor">Dr. John Doe</div>
+                    <button class="reshedulebtn rounded-2 p-2"> Reshedule the Appointment</button>
+                  </div>
+                </li>
+                <li>
+                  <div class="appointment-card">
+                    <div class="appointment-date">June 2, 2023</div>
+                    <div class="appointment-time">2:30 PM</div>
+                    <div class="appointment-doctor">Dr. Jane Smith</div>
+                    <button class="reshedulebtn rounded-2 p-2"> Reshedule the Appointment</button>
+                  </div>
+                </li>
+                <!-- Add more list items for additional appointments -->
+              </ul>
+            </div>
+      
+            <div class="quick-book-container text-center p-5">
+              <h2 class="p-2">Quickly Book an Appointment by clicking below:</h2>
+              <!-- <p class="quick-book-description">Experience hassle-free appointment booking in just a few clicks.</p> -->
+              <a href="#" class="book-appointment-btn">Book Now</a>
+            </div>
+      
+            
+            <div class="featured-doctors-container">
+              <h2>Featured Doctors</h2>
+              <div class="doctors">
+                <div class="doctor">
+                  <div class="doctor-info">
+                    <img src="/photos/doctors-1.jpg" alt="Doctor 1">
+                    <h3>Dr. John Doe</h3>
+                    <p>Specialty: Cardiology</p>
+                  </div>
+                </div>
+                <div class="doctor">
+                  <div class="doctor-info">
+                    <img src="/photos/doctors-2.jpg" alt="Doctor 2">
+                    <h3>Dr. Jane Smith</h3>
+                    <p>Specialty: Pediatrics</p>
+                  </div>
+                </div>
+                <div class="doctor">
+                  <div class="doctor-info">
+                    <img src="/photos/doctors-3.jpg" alt="Doctor 3">
+                    <h3>Dr. Michael Johnson</h3>
+                    <p>Specialty: Orthopedics</p>
+                  </div>
+                </div>
+                <div class="doctor">
+                  <div class="doctor-info">
+                    <img src="/photos/doctors-4.jpg" alt="Doctor 4">
+                    <h3>Dr. Emily Williams</h3>
+                    <p>Specialty: Dermatology</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="container">
               <div class="container mb-5">
                 <div class="accordion" id="accordionExample">
                   <div class="accordion-item">
@@ -296,6 +323,6 @@
 
           </div>
         </div>
-      </div>
+      </div> -->
 
       <%- include('../partials/footer') %>

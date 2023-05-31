@@ -37,7 +37,7 @@ router.get('/faq', authController.faq_get);
 
 router.post('/signup', authController.signup_post);
 
-router.get('/customer/:username', requireAuth, authController.customer_get);
+router.get('/customer/:phone', requireAuth, authController.customer_get);
 
 router.get('/customer/:username/edit', requireAuth, authController.customer_edit_get);
 router.patch('/customer/:username/edit', requireAuth, authController.customer_edit_patch);
@@ -110,7 +110,10 @@ router.get('/cadet/:username/viewinventory', requireAuth, authController.cadet_v
 router.get('/customer/:username/faq', requireAuth, authController.customer_faq_get);
 router.get('/manager/:username/faq', requireAuth, authController.manager_faq_get);
 router.get('/cadet/:username/faq', requireAuth, authController.cadet_faq_get);
-router.get('/customer/:username/about', requireAuth, authController.customer_about_get);
+router.get('/customer/:phone/about', requireAuth, authController.customer_about_get);
+
+router.get('/customer/:phone/appointment', requireAuth, authController.customer_appointment_get);
+
 router.get('/manager/:username/about', requireAuth, authController.manager_about_get);
 router.get('/cadet/:username/about', requireAuth, authController.cadet_about_get);
 
