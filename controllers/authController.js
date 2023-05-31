@@ -146,7 +146,7 @@ const login_post = async (req, res) => {
                 res.cookie('jwt', '', { maxAge: 1 });
                 const token = createToken(customer._id);
                 res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-                res.status(201).render('about', { customer, err: 'You have logged in successfully.' });
+                res.status(201).render('customer/index', { customer, err: 'You have logged in successfully.' });
             } else {
                 const err = 'Invalid login details.';
                 res.status(500).render('login', { err });
@@ -282,7 +282,7 @@ const signup_post = async (req, res) => {
             //     res.status(200).render('login', { err: 'Please ask you manager to confirm your account.' });
             // else
             //     res.status(200).render('login', { err: 'Please verify your email to log in successfully.' });
-            res.status(201).render('about', { err: 'You have logged in successfully.' });
+            res.status(201).render('customer/index', { err: 'You have logged in successfully.' });
         }).catch((err) => {
             console.log(err);
         }
@@ -408,8 +408,8 @@ const resetpassword_patch = async (req, res) => {
 
 const customer_get = async (req, res) => {
     try {
-        const username = req.params.username; // use req.params.username to get the username
-        const customer = await User.findOne({ username: username });
+        const phone = req.params.phone; // use req.params.username to get the username
+        const customer = await User.findOne({ phone: phone });
         // console.log(customer);
         res.render('customer/index', { customer: customer, err: undefined });
     } catch (error) {
@@ -1740,10 +1740,28 @@ const faq_get = (req, res) => {
 
 const customer_about_get = async (req, res) => {
     try {
-        const username = req.params.username;
-        const customer = await User.findOne({ username: username, role: 'customer' });
+        const phone = req.params.phone;
+        const customer = await User.findOne( {phone: phone});
         if (customer) {
             res.render('customer/about', { customer: customer });
+        }
+        else {
+            // res.send('An error occurred while finding the customer.');
+            res.status(404).render('404', { err: 'customer_about_get error' });
+        }
+    } catch (error) {
+        // console.log(error);
+        // res.send('An error occurred while finding the customer.');
+        res.status(404).render('404', { err: 'An error occurred while finding the customer.' });
+    }
+}
+
+const customer_appointment_get = async (req, res) => {
+    try {
+        const phone = req.params.phone;
+        const customer = await User.findOne( {phone: phone});
+        if (customer) {
+            res.render('customer/appointment', { customer: customer });
         }
         else {
             // res.send('An error occurred while finding the customer.');
@@ -1902,6 +1920,8 @@ module.exports = {
     customer_paymenthistory_get,
     customer_about_get,
     customer_faq_get,
+
+    customer_appointment_get,
 
     manager_get,
     manager_edit_get,

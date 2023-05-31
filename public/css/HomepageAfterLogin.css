@@ -1,0 +1,157 @@
+/* HomePage after login CSS */
+
+  
+.appointment-container {
+    background-color: lightblue;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .appointment-container h2 {
+    color: white;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .appointment-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .appointment-list li {
+    margin-bottom: 15px;
+  }
+  
+  .appointment-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  
+  .appointment-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .appointment-date,
+  .appointment-time,
+  .appointment-doctor {
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 16px;
+  }
+  
+  /* Appointment card animations */
+  .appointment-card::before,
+  .appointment-card::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .appointment-card::before {
+    top: -50%;
+    left: -50%;
+    transform: rotate(-45deg);
+  }
+  
+  .appointment-card::after {
+    bottom: -50%;
+    right: -50%;
+    transform: rotate(45deg);
+  }
+  
+  .appointment-card:hover::before,
+  .appointment-card:hover::after {
+    opacity: 1;
+  }
+  
+  /* Optional hover effect */
+  .appointment-list li:hover .appointment-card {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  
+  .book-appointment-btn {
+    display: inline-block;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: white;
+    font-size: 25px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .book-appointment-btn:hover {
+    background-color: #555;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+
+
+  .featured-doctors-container {
+    padding: 30px;
+  }
+  
+  .featured-doctors-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .doctors {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .doctor {
+    flex-basis: 23%;
+    margin-bottom: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s;
+    overflow: hidden;
+  }
+  
+  .doctor:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 1);
+  }
+  
+  .doctor-info {
+    padding: 20px;
+  }
+  
+  .doctor img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .doctor h3 {
+    font-size: 18px;
+    margin: 0;
+    margin-bottom: 10px;
+  }
+  
+  .doctor p {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+  }
+  
+
+  .reshedulebtn:hover{
+    opacity: 0.8;
+  }

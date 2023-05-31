@@ -1,0 +1,176 @@
+<%- include('../partials/header_cadet') %>
+
+
+<div class="bg-lblue">
+  <div style="padding-top: 100px;">
+  <div id="wrapper">
+
+    <%- include('../partials/nav_home_cadet') %>
+  </div>
+
+
+      <!-- <div class="container">
+
+
+        <div class="row mb-5">
+          <div class="col-12 col-lg-3">
+            <div class="list-group text-center make-sticky ">
+        
+                
+        </div> -->
+        
+        <!-- <p class="text-center" style="padding-top: 100px; color: darkblue; text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5); font-size: 70px;"> Welcome "username" </p> -->
+
+          <div class="col-12">
+
+            <div class="container text-center fs-2">
+              <h1>Book an Appointment</h1>
+                <!-- , </br> <span class="fs-3">Look what delicious items are waiting for
+                you.</span> -->
+            </div>
+            
+
+            <div class="display-book-container">
+                <div class="steps-container">
+                    <p class="p-2" style="font-size: 30px;">The simple steps you have to follow</p>
+                    <div class="step">
+                      <div class="step-number">1</div>
+                      <div class="step-content">Enter Date</div>
+                    </div>
+                    <div class="step">
+                      <div class="step-number">2</div>
+                      <div class="step-content">Select Doctor</div>
+                    </div>
+                    <div class="step">
+                      <div class="step-number">3</div>
+                      <div class="step-content">Select Time</div>
+                    </div>
+                    <div class="step">
+                      <div class="step-number">4</div>
+                      <div class="step-content">Confirm OTP</div>
+                    </div>
+                  </div>
+        
+                <div class="quick-book-container-app">
+                  <div id="step1">
+                    <h2>Step 1: Enter Date</h2>
+                    <!-- Date input field and Next button -->
+                    <input class="inputapp" type="date" id="date">
+                    <button class="buttonapp" type="submit" onclick="nextStep(2)">Next <i class="bi bi-arrow-right" style="padding-left: 5px;"></i></button>
+                  </div>
+                  
+        
+        
+                  
+                  <div id="step2" style="display: none;">
+                    <h2>Step 2: Select Doctor</h2>
+                    <!-- Doctor selection options and Next button -->
+                    <select id="doctor">
+                      <option value="" selected disabled>Select a doctor</option>
+                      <option value="Dr. John Doe">Dr. John Doe</option>
+                      <option value="Dr. Jane Smith">Dr. Jane Smith</option>
+                    </select>
+                    <button class="buttonapp" type="submit" onclick="previousStep()"><i class="bi bi-arrow-left" style="padding-right: 5px;"></i> Go Back</button>
+                    <button class="buttonapp" type="submit" onclick="nextStep(3)">Next <i class="bi bi-arrow-right" style="padding-left: 5px;"></i></button>
+                  </div>
+        
+                  <div id="step3" style="display: none;">
+                    <h2>Step 3: Select Time</h2>
+                    <div class="info">
+                      <p><span class="color-indicator booked"></span>Booked time slots</p>
+                      <p><span class="color-indicator selected"></span>Selected time slot</p>
+                    </div>
+                    <!-- Time input field and Next button -->
+                    <!-- <input type="time" id="time"> -->
+                    <div class="time-slots">
+                      <input type="radio" name="time-slot" id="slot1" disabled>
+                      <label for="slot1" class="booked">9:00 AM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot2">
+                      <label for="slot2">9:20 AM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot3">
+                      <label for="slot3">9:40 AM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot1" disabled>
+                      <label for="slot1" class="booked">10:00 AM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot2">
+                      <label for="slot2">10:20 AM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot3">
+                      <label for="slot3">10:40 AM</label>
+        
+                      <input type="radio" name="time-slot" id="slot1" disabled>
+                      <label for="slot1" class="booked">11:00 AM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot2">
+                      <label for="slot2">11:20 AM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot3">
+                      <label for="slot3">11:40 AM</label>
+        
+                      <input type="radio" name="time-slot" id="slot1" disabled>
+                      <label for="slot1" class="booked">12:00 AM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot2">
+                      <label for="slot2">12:20 PM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot3">
+                      <label for="slot3">12:40 PM</label>
+        
+                      <input type="radio" name="time-slot" id="slot1" disabled>
+                      <label for="slot1" class="booked">1:00 PM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot2">
+                      <label for="slot2">1:20 PM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot3">
+                      <label for="slot3">1:40 PM</label>
+        
+                      <input type="radio" name="time-slot" id="slot1" disabled>
+                      <label for="slot1" class="booked">2:00 PM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot2">
+                      <label for="slot2">2:20 PM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot3">
+                      <label for="slot3">2:40 PM</label>
+        
+                      <input type="radio" name="time-slot" id="slot1" disabled>
+                      <label for="slot1" class="booked">3:00 PM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot2">
+                      <label for="slot2">3:20 PM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot3">
+                      <label for="slot3">3:40 PM</label>
+        
+                      <input type="radio" name="time-slot" id="slot1" disabled>
+                      <label for="slot1" class="booked">4:00 PM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot2">
+                      <label for="slot2">4:20 PM</label>
+                      
+                      <input type="radio" name="time-slot" id="slot3">
+                      <label for="slot3">4:40 PM</label>
+        
+                    </div>
+                    <button class="buttonapp" type="submit" onclick="previousStep()"><i class="bi bi-arrow-left" style="padding-right: 5px;"></i> Go Back</button>
+                    <button class="buttonapp" type="submit" onclick="nextStep(4)">Next <i class="bi bi-arrow-right" style="padding-left: 5px;"></i></button>
+                  </div>
+                  
+                  
+                  
+                  <div id="step4" style="display: none;">
+                    <h2>Step 4: Confirm OTP</h2>
+                    <!-- OTP input field and Submit button -->
+                    <input class="inputapp" type="text" id="otp">
+                    <button class="buttonapp" type="submit" onclick="previousStep()"><i class="bi bi-arrow-left" style="padding-right: 5px;"></i> Go Back</button>
+                    <button class="buttonapp" type="submit" onclick="submitForm()">Submit</button>
+                  </div>
+                </div>
+                
+              </div>
+
+    <%- include('../partials/footer') %>
