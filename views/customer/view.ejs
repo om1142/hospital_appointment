@@ -4,12 +4,12 @@
         <div style="padding-top: 100px;">
     <div id="wrapper">
         
-        <%- include('../partials/nav') %>
+        <%- include('../partials/nav_home_cadet') %>
     </div>
 
 
                 
-                    <div class="container bg-image border shadow mb-5 col-md-6 col-xl-6 col-sm-5 px-5 py-2 mb-3 rounded-5" style="background-image: url('https://cdn.wallpapersafari.com/71/78/LUEfzS.jpg');">
+                    <div class="container bg-image border shadow mb-5 col-md-6 col-xl-6 col-sm-5 px-5 py-2 mb-3 rounded-5" style="background-image: url(/photos/bg.jpg);">
 
                         <div class="profile my-4 pt-5 ">
                             <div class="mb-3 text-center"><img src="/photos/person_logo.svg" alt="person" width="15%"></div>
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <div class="container text-center mb-5">
-                        <a href="/customer/edit" class="btn btn-primary">Edit Profile</a>
+                        <a href="/customer/<%=customer.phone%>/edit" class="btn btn-primary">Edit Profile</a>
                     </div>
 
                     

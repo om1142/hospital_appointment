@@ -502,7 +502,7 @@ const customer_changepassword_patch = async (req, res) => {
 const customer_edit_get = async (req, res) => {
     try {
         //const username = req.params.username; // use req.params.username to get the username
-        const username = req.params.phone;
+        const phone = req.params.phone;
         const customer = await User.findOne({ phone:phone });
         if (customer) {
 
@@ -544,7 +544,7 @@ const customer_edit_patch = async (req, res) => {
         User.updateOne({ phone:phone },
             { $set: { fullname: req.body.fullname, date: req.body.date, gender: req.body.gender }, validate: true }).then((result) => {
                 console.log(result);
-                res.render('about', { customer: customer, err: 'Profile has been updated successfully.' });
+                res.render('customer/view', { customer: customer, err: 'Profile has been updated successfully.' });
             }).catch((err) => {
                 // console.log(err);
                 // res.send(err);
