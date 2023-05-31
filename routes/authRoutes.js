@@ -39,10 +39,10 @@ router.post('/signup', authController.signup_post);
 
 router.get('/customer/:phone', requireAuth, authController.customer_get);
 
-router.get('/customer/:username/edit', requireAuth, authController.customer_edit_get);
-router.patch('/customer/:username/edit', requireAuth, authController.customer_edit_patch);
+router.get('/customer/:phone/edit', requireAuth, authController.customer_edit_get);
+router.patch('/customer/:phone/edit', requireAuth, authController.customer_edit_patch);
 
-router.get('/customer/:username/view', requireAuth, authController.customer_view_get);
+router.get('/customer/:phone/view', requireAuth, authController.customer_view_get);
 
 router.get('/customer/:username/changepassword', requireAuth, authController.customer_changepassword_get);
 router.patch('/customer/:username/changepassword', requireAuth, authController.customer_changepassword_patch);

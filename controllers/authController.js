@@ -421,8 +421,9 @@ const customer_get = async (req, res) => {
 
 const customer_view_get = async (req, res) => {
     try {
-        const username = req.params.username; // use req.params.username to get the username
-        const customer = await User.findOne({ username: username, role: 'customer' });
+        //const username = req.params.username; // use req.params.username to get the username
+        const phone = req.params.phone;
+        const customer = await User.findOne({ phone:phone });
         if (customer) {
             res.render('customer/view', { customer: customer, err: undefined });
             // res.send(customer);
@@ -500,8 +501,9 @@ const customer_changepassword_patch = async (req, res) => {
 
 const customer_edit_get = async (req, res) => {
     try {
-        const username = req.params.username; // use req.params.username to get the username
-        const customer = await User.findOne({ username: username, role: 'customer' });
+        //const username = req.params.username; // use req.params.username to get the username
+        const phone = req.params.phone;
+        const customer = await User.findOne({ phone:phone });
         if (customer) {
 
             res.render('customer/edit', { customer: customer, err: undefined });
@@ -518,14 +520,14 @@ const customer_edit_get = async (req, res) => {
 }
 const customer_edit_patch = async (req, res) => {
     try {
-        const { username } = req.params; // use req.params.username to get the username
-        const customer = await User.findOne({ username: username, role: 'customer' });
+        const { phone } = req.params; // use req.params.username to get the username
+        const customer = await User.findOne({ phone:phone });
 
         // customer.password = req.body.password;
         customer.fullname = req.body.fullname;
         customer.date = req.body.date;
         // customer.email = req.body.email;
-        customer.phone = req.body.phone;
+        //customer.phone = req.body.phone;
         customer.gender = req.body.gender;
         // console.log(customer);
         // res.send(username);
@@ -539,10 +541,10 @@ const customer_edit_patch = async (req, res) => {
             return res.status(500).render('customer/edit', { customer, err: 'Invalid birth date.' });
         }
 
-        User.updateOne({ username: username },
-            { $set: { fullname: req.body.fullname, date: req.body.date, email: req.body.email, phone: req.body.phone, gender: req.body.gender }, validate: true }).then((result) => {
+        User.updateOne({ phone:phone },
+            { $set: { fullname: req.body.fullname, date: req.body.date, gender: req.body.gender }, validate: true }).then((result) => {
                 console.log(result);
-                res.render('customer/index', { customer: customer, err: 'Profile has been updated successfully.' });
+                res.render('customer/view', { customer: customer, err: 'Profile has been updated successfully.' });
             }).catch((err) => {
                 // console.log(err);
                 // res.send(err);
