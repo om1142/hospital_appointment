@@ -14,14 +14,14 @@ const requireAuth = (req, res, next) => {
                 // console.log("Vrund");
                 // console.log("Vrund");
                 // console.log(decodedToken);
-                const username = req.params.username;
+                const phone = req.params.phone;
                 console.log("deep");
                 console.log(res.locals.user);
-                console.log(username);
+                //console.log(username);
                 console.log("deep");
 
-                const fraud = await User.findOne({ username: username });
-                if (fraud && fraud.username == res.locals.user.username) {
+                const fraud = await User.findOne({ phone:phone });
+                if (fraud && fraud.phone == res.locals.user.phone) {
                     next();
                 }
                 else {
