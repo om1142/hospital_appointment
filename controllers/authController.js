@@ -73,20 +73,20 @@ const sendVerifyMail = async (name, email, user_id, userrole, req) => {
         const protocol = req.protocol || 'http';
         const hostname = req.headers.host || 'localhost:3000';
         const url_ = protocol + '://' + hostname + remaining;
-        if (userrole === 'customer') {
+        //if (userrole === 'customer') {
             mailOptions.subject = 'For verification mail';
             mailOptions.html = `<p>Hii '${name}', please click <a href="${url_}">here</a> to verify your mail</p>`;
-        } else if (userrole === 'manager') {
-            mailOptions.to = process.env.MANAGER_MAIL;
-            mailOptions.subject = `For verification mail for manager named ${name}`;
-            mailOptions.html = `<p>Dear Manager, ${name} wants to be a manager, please click <a href="${url_}">here</a> to verify their mail</p>`;
-        } else if (userrole === 'cadet') {
-            mailOptions.to = process.env.MANAGER_MAIL;
-            mailOptions.subject = `For verification mail for cadet named ${name}`;
-            mailOptions.html = `<p>Dear Manager, ${name} wants to be a cadet, please click <a href="${url_}">here</a> to verify their mail</p>`;
-        } else {
-            throw new Error(`Invalid user role: ${userrole}`);
-        }
+        // } else if (userrole === 'manager') {
+        //     mailOptions.to = process.env.MANAGER_MAIL;
+        //     mailOptions.subject = `For verification mail for manager named ${name}`;
+        //     mailOptions.html = `<p>Dear Manager, ${name} wants to be a manager, please click <a href="${url_}">here</a> to verify their mail</p>`;
+        // } else if (userrole === 'cadet') {
+        //     mailOptions.to = process.env.MANAGER_MAIL;
+        //     mailOptions.subject = `For verification mail for cadet named ${name}`;
+        //     mailOptions.html = `<p>Dear Manager, ${name} wants to be a cadet, please click <a href="${url_}">here</a> to verify their mail</p>`;
+        // } else {
+        //     throw new Error(`Invalid user role: ${userrole}`);
+        // }
 
         const info = await transporter.sendMail(mailOptions);
         console.log(`Email has been sent to ${email}: ${info.messageId}`);
@@ -103,7 +103,7 @@ const verifyMail = async (req, res) => {
         const customer = await User.findOne({ _id: req.params.id });
         console.log(customer);
         console.log(updateInfo);
-        res.render('login', { err: undefined });
+        res.render('login', { err: 'Your account is verified successfully' });
     } catch (error) {
         console.log(error.message);
         res.log('Inside catch block of verifyMail.');
@@ -251,6 +251,7 @@ const signup_post = async (req, res) => {
 
         //const foundUser = await User.findOne({ username: user.username });
         const foundUser = await User.findOne({ phone: user.phone });
+        //const customer = await User.findOne({phone})
         //console.log(foundUser);
         if (foundUser) {
             const err = 'Phone number already exists.';
@@ -277,12 +278,12 @@ const signup_post = async (req, res) => {
         //if not exists then save the user in the database
         user.save().then(async (result) => {
             // sendVerifyMail(req.body.fullname, req.body.email, result._id, req.body.role);
-            // const sendMail = await sendVerifyMail(req.body.fullname, req.body.email, result._id, req.body.role, req);
+            const sendMail = await sendVerifyMail(req.body.fullname, req.body.email, result._id, req.body.role, req);
             // if (req.body.role === 'cadet')
             //     res.status(200).render('login', { err: 'Please ask you manager to confirm your account.' });
             // else
-            //     res.status(200).render('login', { err: 'Please verify your email to log in successfully.' });
-            res.status(201).render('customer/index', { err: 'You have logged in successfully.' });
+            res.status(200).render('login', { err: 'Please verify your email to log in successfully.' });
+            // res.status(201).render('login', { err: 'Your account is succesfully created.' });
         }).catch((err) => {
             console.log(err);
         }
