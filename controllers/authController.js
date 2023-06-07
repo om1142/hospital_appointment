@@ -6,6 +6,7 @@ const Feedback = require('../models/feedback');
 const Payment = require('../models/payment');
 const Paymenthistory = require('../models/paymenthistory');
 const Managercheck = require('../models/managercheck');
+const Appointment = require('../models/appointment');
 const validator = require('validator');
 
 
@@ -146,7 +147,8 @@ const login_post = async (req, res) => {
                 res.cookie('jwt', '', { maxAge: 1 });
                 const token = createToken(customer._id);
                 res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-                res.status(201).render('customer/index', { customer, err: 'You have logged in successfully.' });
+                const upcomingAppointments = await Appointment.find({ phone: phone });
+                res.status(201).render('customer/index', { customer, upcomingAppointments, err: 'You have logged in successfully.' });
             } else {
                 const err = 'Invalid login details.';
                 res.status(500).render('login', { err });
@@ -412,7 +414,8 @@ const customer_get = async (req, res) => {
         const phone = req.params.phone; // use req.params.username to get the username
         const customer = await User.findOne({ phone: phone });
         // console.log(customer);
-        res.render('customer/index', { customer: customer, err: undefined });
+        const upcomingAppointments = await Appointment.find({ phone: phone });
+        res.render('customer/index', { customer: customer, upcomingAppointments, err: undefined });
     } catch (error) {
         // console.log(error);
         res.status(404).render('404', { err: 'Customer_get error' });
@@ -1893,6 +1896,68 @@ const add_user_get = (req, res) => {
 };
 
 
+const getAvailableTimeSlots = (req, res) => {
+    const { date, doctor } = req.query;
+    console.log("in getavailabletimeslots");
+    console.log(req.params);
+    console.log(req.query);
+    console.log(date);
+    console.log(doctor);
+  
+    // Fetch the booked appointments from the database
+    Appointment.find({ date: date, doctor: doctor })
+      .then(bookedAppointments => {
+        // Extract the booked time slots
+        const bookedTimeSlots = bookedAppointments.map(appointment => appointment.timeSlot);
+  
+        // Define all available time slots
+        const allTimeSlots = [
+          '9:00 AM', '9:20 AM', '9:40 AM', '10:00 AM', '10:20 AM', '10:40 AM', '11:00 AM', '11:20 AM',
+          '11:40 AM', '12:00 PM', '12:20 PM', '12:40 PM', '1:00 PM', '1:20 PM', '1:40 PM', '2:00 PM',
+          '2:20 PM', '2:40 PM', '3:00 PM', '3:20 PM', '3:40 PM', '4:00 PM', '4:20 PM', '4:40 PM'
+        ];
+  
+        // Filter the available time slots based on the booked appointments
+        const availableTimeSlots = allTimeSlots.filter(slot => !bookedTimeSlots.includes(slot));
+  
+        res.json({ availableTimeSlots, bookedTimeSlots });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Failed to fetch available time slots' });
+      });
+};
+  
+// Controller method to create a new appointment
+const createAppointment = (req, res) => {
+    const { date, doctor, timeSlot } = req.body;
+    const phone = req.params.phone;
+    console.log("in createappointment");
+    console.log(req.body);
+  
+    // Create a new Appointment record
+    const appointment = new Appointment({
+      phone,
+      date,
+      doctor,
+      timeSlot
+    });
+  
+    // Save the appointment to the database
+    appointment.save()
+      .then(() => {
+        res.json({ message: 'Appointment created successfully' });
+      })
+      .catch((error) => {
+        res.status(500).json({ error: 'Failed to create appointment' });
+      });
+};
+
+
+
+  
+  
+  
 
 
 const logout_get = (req, res) => {
@@ -1971,6 +2036,9 @@ module.exports = {
     cadet_about_get,
     cadet_faq_get,
 
+
+    getAvailableTimeSlots,
+    createAppointment,
 
     verifyMail,
     sendVerifyMail,

@@ -57,14 +57,22 @@
             <div class="appointment-container pt-5 mt-5 m-5">
               <h2 class="text-center pb-5">Your Upcoming Appointments are here</h2>
               <ul class="appointment-list">
-                <li>
-                  <div class="appointment-card">
-                    <div class="appointment-date">May 30, 2023</div>
-                    <div class="appointment-time">10:00 AM</div>
-                    <div class="appointment-doctor">Dr. John Doe</div>
-                    <button class="reshedulebtn rounded-2 p-2"> Reshedule the Appointment</button>
-                  </div>
-                </li>
+                <% upcomingAppointments.forEach(appointment => { %>
+                  <li>
+                    <div class="appointment-card">
+                      <div class="appointment-date">
+                        <% const dateObj = new Date(appointment.date); %>
+                        <% const day = dateObj.getDate().toString().padStart(2, '0'); %>
+                        <% const month = (dateObj.getMonth() + 1).toString().padStart(2, '0'); %>
+                        <% const year = dateObj.getFullYear(); %>
+                        <%= `${day}/${month}/${year}` %>
+                         </div>
+                      <div class="appointment-time"><%= appointment.timeSlot %></div>
+                      <div class="appointment-doctor"><%= appointment.doctor %></div>
+                      <button class="reshedulebtn rounded-2 p-2">Reschedule the Appointment</button>
+                    </div>
+                  </li>
+                <% }); %>
                 <li>
                   <div class="appointment-card">
                     <div class="appointment-date">June 2, 2023</div>

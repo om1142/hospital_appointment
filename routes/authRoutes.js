@@ -34,6 +34,10 @@ router.get('/appointmentWithoutLogin', authController.appointmentWithoutLogin_ge
 router.get('/faq', authController.faq_get);
 
 
+router.get('/customer/:phone/time-slots', authController.getAvailableTimeSlots);
+router.post('/customer/:phone/appointments', authController.createAppointment);
+
+
 
 router.post('/signup', authController.signup_post);
 

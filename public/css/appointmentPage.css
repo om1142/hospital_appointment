@@ -206,4 +206,19 @@ label.selected {
 .selected {
   background-color: #aaffaa;
 }
+
+
+.time-slots input[type="radio"]:checked + label {
+  background-color: #aaffaa; /* Set your desired background color */
+}
+
+
+/* Add hover effect for better user experience */
+.time-slots label:hover {
+  cursor: pointer;
+}
+
+label.booked {
+  background-color: #ffcccc;
+}
   
