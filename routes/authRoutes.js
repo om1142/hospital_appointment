@@ -53,7 +53,7 @@ router.post('/customer/:username/feedback', requireAuth, authController.customer
 
 router.get('/customer/:username/paymenthistory', requireAuth, authController.customer_paymenthistory_get);
 
-router.get('/manager/:username', requireAuth, authController.manager_get);
+router.get('/manager/:phone', requireAuth, authController.manager_get);
 
 router.get('/manager/:username/edit', requireAuth, authController.manager_edit_get);
 router.patch('/manager/:username/edit', requireAuth, authController.manager_edit_patch);
