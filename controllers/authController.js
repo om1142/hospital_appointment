@@ -145,7 +145,14 @@ const login_post = async (req, res) => {
                     res.cookie('jwt', '', { maxAge: 1 });
                     const token = createToken(customer._id);
                     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-                    res.status(201).render('manager/index', { customer, err: 'You have logged in successfully.' });
+                    const doctor1 = 'Dr. John Doe';
+                    const doctor2 = 'Dr. Jane Smith';
+                    const currentDate = new Date();
+                    const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0);
+                    const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
+                    const appointments1 = await Appointment.find({doctor:doctor1,date: {$gte: startOfDay,$lte: endOfDay}});
+                    const appointments2 = await Appointment.find({doctor:doctor2,date: {$gte: startOfDay,$lte: endOfDay}});
+                    res.status(201).render('manager/index', { customer,appointments1,appointments2, err: 'You have logged in successfully.' });
                 }
                 // req.session.user_id = user._id;
                 // const user = await User.login(username, password, role);
@@ -422,7 +429,14 @@ const customer_get = async (req, res) => {
         const customer = await User.findOne({ phone: phone });
         // console.log(customer);
         if(phone === "9173505413"){
-            res.render('manager/index', { customer: customer, err: undefined });
+            const doctor1 = 'Dr. John Doe';
+            const doctor2 = 'Dr. Jane Smith';
+            const currentDate = new Date();
+            const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0);
+            const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
+            const appointments1 = await Appointment.find({doctor:doctor1,date: {$gte: startOfDay,$lte: endOfDay}});
+            const appointments2 = await Appointment.find({doctor:doctor2,date: {$gte: startOfDay,$lte: endOfDay}});
+            res.render('manager/index', { customer: customer,appointments1,appointments2, err: undefined });
         }
         else{
             const upcomingAppointments = await Appointment.find({ phone: phone });
@@ -1778,8 +1792,29 @@ const customer_appointment_get = async (req, res) => {
     try {
         const phone = req.params.phone;
         const customer = await User.findOne( {phone: phone});
-        if (customer) {
+        if(phone==="9173505413" && customer){
+            res.render('manager/appointment', { customer: customer , err: undefined });
+        }
+        else if (customer) {
             res.render('customer/appointment', { customer: customer , err: undefined });
+        }
+        else {
+            // res.send('An error occurred while finding the customer.');
+            res.status(404).render('404', { err: 'customer_about_get error' });
+        }
+    } catch (error) {
+        // console.log(error);
+        // res.send('An error occurred while finding the customer.');
+        res.status(404).render('404', { err: 'An error occurred while finding the customer.' });
+    }
+}
+
+const manager_appointment_get = async (req, res) => {
+    try {
+        const phone = req.params.phone;
+        const customer = await User.findOne( {phone: phone});
+        if (customer) {
+            res.render('manager/appointment', { customer: customer , err: undefined });
         }
         else {
             // res.send('An error occurred while finding the customer.');
@@ -1941,15 +1976,18 @@ const getAvailableTimeSlots = (req, res) => {
 };
   
 // Controller method to create a new appointment
-const createAppointment = (req, res) => {
+const createAppointment = async(req, res) => {
     const { date, doctor, timeSlot } = req.body;
     const phone = req.params.phone;
+    const customer = await User.findOne({phone});
+    const fullname = customer.fullname;
     console.log("in createappointment");
     console.log(req.body);
   
     // Create a new Appointment record
     const appointment = new Appointment({
       phone,
+      fullname,
       date,
       doctor,
       timeSlot
@@ -1965,7 +2003,30 @@ const createAppointment = (req, res) => {
       });
 };
 
-
+// Controller method to create a new appointment
+const createAppointment_manager = async(req, res) => {
+    const { date, doctor, timeSlot,fullname,phone } = req.body;
+    console.log("in createappointment_manager");
+    console.log(req.body);
+  
+    // Create a new Appointment record
+    const appointment = new Appointment({
+      phone,
+      fullname,
+      date,
+      doctor,
+      timeSlot
+    });
+  
+    // Save the appointment to the database
+    appointment.save()
+      .then(() => {
+        res.json({ message: 'Appointment created successfully' });
+      })
+      .catch((error) => {
+        res.status(500).json({ error: 'Failed to create appointment' });
+      });
+};
 
   
   
@@ -2002,6 +2063,7 @@ module.exports = {
     customer_faq_get,
 
     customer_appointment_get,
+    manager_appointment_get,
 
     manager_get,
     manager_edit_get,
@@ -2051,6 +2113,7 @@ module.exports = {
 
     getAvailableTimeSlots,
     createAppointment,
+    createAppointment_manager,
 
     verifyMail,
     sendVerifyMail,

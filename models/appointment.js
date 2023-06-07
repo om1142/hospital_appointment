@@ -8,6 +8,11 @@ const appointmentSchema = new Schema({
         required: true
     },
 
+    fullname: {
+        type: String,
+        required: true
+    },
+
     date: {
         type: Date,
         required: true

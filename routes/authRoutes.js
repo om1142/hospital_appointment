@@ -36,6 +36,7 @@ router.get('/faq', authController.faq_get);
 
 router.get('/customer/:phone/time-slots', authController.getAvailableTimeSlots);
 router.post('/customer/:phone/appointments', authController.createAppointment);
+router.post('/manager/:phone/appointments', authController.createAppointment_manager);
 
 
 
@@ -117,6 +118,8 @@ router.get('/cadet/:username/faq', requireAuth, authController.cadet_faq_get);
 router.get('/customer/:phone/about', requireAuth, authController.customer_about_get);
 
 router.get('/customer/:phone/appointment', requireAuth, authController.customer_appointment_get);
+router.get('/manager/:phone/appointment', requireAuth, authController.manager_appointment_get);
+
 
 router.get('/manager/:username/about', requireAuth, authController.manager_about_get);
 router.get('/cadet/:username/about', requireAuth, authController.cadet_about_get);

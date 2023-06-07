@@ -1,0 +1,282 @@
+<%- include('../partials/header_cadet') %>
+
+<div class="bg-lblue">
+  <div style="padding-top: 100px;">
+    <div id="wrapper">
+      <%- include('../partials/nav_home_manager') %>
+    </div>
+
+    <div class="col-12">
+      <div class="container text-center fs-2">
+        <h1>Book an Appointment</h1>
+      </div>
+
+      <div class="display-book-container">
+        <div class="steps-container">
+          <p class="p-2" style="font-size: 30px;">The simple steps you have to follow</p>
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">Enter Date</div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">Select Doctor</div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">Select Time</div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">Add Patient Details</div>
+          </div>
+          <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">Confirm OTP</div>
+          </div>
+        </div>
+
+        <form id="appointment-form" class="quick-book-container-app">
+          <div id="step1">
+            <h2>Step 1: Enter Date</h2>
+            <input class="inputapp" type="date" id="date">
+            <button class="buttonapp" type="button" onclick="nextStep(2)">Next <i class="bi bi-arrow-right" style="padding-left: 5px;"></i></button>
+          </div>
+
+          <div id="step2" style="display: none;">
+            <h2>Step 2: Select Doctor</h2>
+            <select id="doctor">
+              <option value="" selected disabled>Select a doctor</option>
+              <option value="Dr. John Doe">Dr. John Doe</option>
+              <option value="Dr. Jane Smith">Dr. Jane Smith</option>
+            </select>
+            <button class="buttonapp" type="button" onclick="previousStep()"><i class="bi bi-arrow-left" style="padding-right: 5px;"></i> Go Back</button>
+            <button class="buttonapp" type="button" onclick="nextStep(3)">Next <i class="bi bi-arrow-right" style="padding-left: 5px;"></i></button>
+          </div>
+
+          <div id="step3" style="display: none;">
+            <h2>Step 3: Select Time</h2>
+            <div class="info">
+              <p><span class="color-indicator booked"></span>Booked time slots</p>
+              <p><span class="color-indicator selected"></span>Selected time slot</p>
+            </div>
+            <div class="time-slots">
+              <input type="radio" name="time-slot" id="slot1" value="9:00 AM">
+              <label for="slot1">9:00 AM</label>
+              
+              <input type="radio" name="time-slot" id="slot2" value="9:20 AM">
+              <label for="slot2">9:20 AM</label>
+              
+              <input type="radio" name="time-slot" id="slot3" value="9:40 AM">
+              <label for="slot3">9:40 AM</label>
+              
+              <input type="radio" name="time-slot" id="slot4" value="10:00 AM">
+              <label for="slot4">10:00 AM</label>
+              
+              <input type="radio" name="time-slot" id="slot5" value="10:20 AM">
+              <label for="slot5">10:20 AM</label>
+              
+              <input type="radio" name="time-slot" id="slot6" value="10:40 AM">
+              <label for="slot6">10:40 AM</label>
+
+              <input type="radio" name="time-slot" id="slot7" value="11:00 AM">
+              <label for="slot7">11:00 AM</label>
+              
+              <input type="radio" name="time-slot" id="slot8" value="11:20 AM">
+              <label for="slot8">11:20 AM</label>
+              
+              <input type="radio" name="time-slot" id="slot9" value="11:40 AM">
+              <label for="slot9">11:40 AM</label>
+
+              <input type="radio" name="time-slot" id="slot10" value="12:00 PM">
+              <label for="slot10">12:00 PM</label>
+              
+              <input type="radio" name="time-slot" id="slot11" value="12:20 PM">
+              <label for="slot11">12:20 PM</label>
+              
+              <input type="radio" name="time-slot" id="slot12" value="12:40 PM">
+              <label for="slot12">12:40 PM</label>
+
+              <input type="radio" name="time-slot" id="slot13" value="1:00 PM">
+              <label for="slot13">1:00 PM</label>
+              
+              <input type="radio" name="time-slot" id="slot14" value="1:20 PM">
+              <label for="slot14">1:20 PM</label>
+              
+              <input type="radio" name="time-slot" id="slot15" value="1:40 PM">
+              <label for="slot15">1:40 PM</label>
+
+              <input type="radio" name="time-slot" id="slot16" value="2:00 PM">
+              <label for="slot16">2:00 PM</label>
+              
+              <input type="radio" name="time-slot" id="slot17" value="2:20 PM">
+              <label for="slot17">2:20 PM</label>
+              
+              <input type="radio" name="time-slot" id="slot18" value="2:40 PM">
+              <label for="slot18">2:40 PM</label>
+
+              <input type="radio" name="time-slot" id="slot19" value="3:00 PM">
+              <label for="slot19">3:00 PM</label>
+              
+              <input type="radio" name="time-slot" id="slot20" value="3:20 PM">
+              <label for="slot20">3:20 PM</label>
+              
+              <input type="radio" name="time-slot" id="slot21" value="3:40 PM">
+              <label for="slot21">3:40 PM</label>
+
+              <input type="radio" name="time-slot" id="slot22" value="4:00 PM">
+              <label for="slot22">4:00 PM</label>
+              
+              <input type="radio" name="time-slot" id="slot23" value="4:20 PM">
+              <label for="slot23">4:20 PM</label>
+              
+              <input type="radio" name="time-slot" id="slot24" value="4:40 PM">
+              <label for="slot24">4:40 PM</label>
+            </div>
+            <button class="buttonapp" type="button" onclick="previousStep()"><i class="bi bi-arrow-left" style="padding-right: 5px;"></i> Go Back</button>
+            <button class="buttonapp" type="button" onclick="nextStep(4)">Next <i class="bi bi-arrow-right" style="padding-left: 5px;"></i></button>
+          </div>
+
+          <div id="step4" style="display: none;">
+            <h2>Step 4: Add Patient Details</h2>
+            <input class="inputapp" type="text" id="fullname" placeholder="Patient Name">
+            <input class="inputapp" type="text" id="number" placeholder="Mobile Number">
+            <button class="buttonapp" type="button" onclick="previousStep()"><i class="bi bi-arrow-left" style="padding-right: 5px;"></i> Go Back</button>
+            <button class="buttonapp" type="button" id="submit-button">Submit</button>
+          </div>
+
+        </form>
+
+        <div id="appointment-details"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Global variables
+  let selectedDate = '';
+  let selectedDoctor = '';
+  let selectedTimeSlot = '';
+  let GcurrentStep = 1;
+
+  function updateTimeSlots() {
+                    const timeSlotsContainer = document.querySelector('.time-slots');
+                    timeSlotsContainer.innerHTML = ''; // Clear previous options
+                
+                    console.log(selectedDate);
+                    console.log(selectedDoctor);
+                    console.log("in updateTimeslots");
+                    // Make an AJAX request to get the available and booked time slots
+                    fetch(`/customer/<%=customer.phone%>/time-slots?date=${selectedDate}&doctor=${selectedDoctor}`)
+                      .then(response => response.json())
+                      .then(data => {
+                        const { availableTimeSlots, bookedTimeSlots } = data;
+
+                        const allTimeSlots = [
+                          '9:00 AM', '9:20 AM', '9:40 AM', '10:00 AM', '10:20 AM', '10:40 AM', '11:00 AM', '11:20 AM',
+                          '11:40 AM', '12:00 PM', '12:20 PM', '12:40 PM', '1:00 PM', '1:20 PM', '1:40 PM', '2:00 PM',
+                          '2:20 PM', '2:40 PM', '3:00 PM', '3:20 PM', '3:40 PM', '4:00 PM', '4:20 PM', '4:40 PM'
+                        ];
+                        // Generate and insert time slot options
+                        allTimeSlots.forEach(slot => {
+                          const input = document.createElement('input');
+                          input.type = 'radio';
+                          input.name = 'time-slot';
+                          input.id = slot;
+                          input.value = slot;
+                
+                          // Check if the current slot is booked
+                          if (bookedTimeSlots.includes(slot)) {
+                            input.disabled = true; // Disable the input for booked slots
+                          }
+                
+                          const label = document.createElement('label');
+                          label.htmlFor = slot;
+                          label.textContent = slot;
+                
+                          // Check if the current slot is booked and add the "booked" class to the label
+                          if (bookedTimeSlots.includes(slot)) {
+                            label.classList.add('booked');
+                          }
+                
+                          timeSlotsContainer.appendChild(input);
+                          timeSlotsContainer.appendChild(label);
+                        });
+                      })
+                      .catch(error => {
+                        console.error('Error fetching time slots:', error);
+                      });
+                  }
+
+  function nextStep(step) {
+    if (step === 3) {
+      selectedDate = document.getElementById('date').value;
+      selectedDoctor = document.getElementById('doctor').value;
+      console.log(selectedDate);
+      console.log(selectedDoctor);
+      updateTimeSlots();
+    }
+    document.getElementById(`step${step - 1}`).style.display = 'none';
+    document.getElementById(`step${step}`).style.display = 'block';
+
+    // Update the current step
+    GcurrentStep = step;
+  }
+
+  function previousStep() {
+    document.getElementById(`step${GcurrentStep}`).style.display = 'none';
+    document.getElementById(`step${GcurrentStep - 1}`).style.display = 'block';
+
+    // Update the current step
+    GcurrentStep -= 1;
+  }
+
+  document.getElementById('submit-button').addEventListener('click', () => {
+    const fullname = document.getElementById('fullname').value;
+    const number = document.getElementById('number').value;
+    const timeSlot = document.querySelector('input[name="time-slot"]:checked').value;
+
+    // Validate the input fields
+    if (fullname === '' || number === '') {
+      alert('Please enter patient name and mobile number');
+      return;
+    }
+
+    // Create an object to store the appointment details
+    const appointment = {
+      date: selectedDate,
+      doctor: selectedDoctor,
+      timeSlot: timeSlot,
+      fullname: fullname,
+      phone: number
+    };
+
+    // Send the appointment data to the server to save in MongoDB
+    fetch('/manager/<%=customer.phone%>/appointments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(appointment)
+      })
+      .then(response => response.json())
+      .then(result => {
+      // Handle the server response
+      // Display the appointment details on the page
+      const appointmentDetails = document.getElementById('appointment-details');
+      appointmentDetails.innerHTML = `<p>${result.message}</p>`;
+      })
+      .catch(error => {
+      // Handle any errors that occur during the request
+      console.error('Error:', error);
+      });
+
+      // Reset the form and go back to Step 1
+      document.getElementById('appointment-form').reset();
+      currentStep = 1;
+      nextStep(currentStep);
+    });
+</script>
+
+<%- include('../partials/footer') %>
