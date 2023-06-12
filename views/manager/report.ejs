@@ -1,0 +1,140 @@
+<%- include('../partials/header_cadet') %>
+ 
+<div class="bg-lblue">
+    <div style="padding-top: 100px;">
+<div id="wrapper">
+    <%- include('../partials/nav_home_manager') %>
+</div>
+
+
+    <div class="container bg-image shadow-lg mt-3 col-md-6 col-xl-6 px-5 py-4 mb-5 rounded-5" style="background-image: url(/photos/bg.jpg);">
+        <div class="text-center fs-2 mt-3 text-dark">Report</div>
+        <div class="text-center mb-5 text-dark">Provide the details of the patient.</div>
+
+        <form action="/manager/<%=customer.phone%>/report" method="post">
+
+            <div class="row">
+                <div class="col-12 col-sm-12">
+                    <div class="form-floating mb-3 shadow">
+                        <!-- <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Full name" required> -->
+                        <input class="inputapp" type="text" id="fullname" name="fullname" placeholder="Patient Name" required>
+                        <!-- <label for="fullname">Full name</label> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-sm-12">
+                    <div class="form-floating mb-3 shadow">
+                        <input type="tel" class="inputapp" id="phone-number" name="phone" placeholder="Phone Number"
+                            pattern="[0-9]{10}" required>
+                        <!-- <label for="phone-number">Phone number</label> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-12 col-sm-6">
+                    <div class="form-floating mb-3 shadow">
+                        <select id="gender" class="inputapp selectpicker" name="gender" placeholder="Gender" data-width="auto"
+                            required>
+                            <option value="" selected disabled>Select a gender</option>
+                            <option value="male"> Male </option>
+                            <option value="female"> Female </option>
+                            <option value="other"> Other </option>
+                        </select>
+                        <!-- <label for="gender">Gender</label> -->
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6">
+                    <div class="form-floating mb-3 shadow">
+                        <input type="date" class="inputapp" id="date" name="date" placeholder="date" max="9999-12-31" required>
+                        <!-- <label for="date">Date</label> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+            <div class="col-12 col-sm-6 ">
+                <div class="form-floating mb-3 shadow">
+                <select id="doctor" class="inputapp selectpicker" name="doctor" placeholder="doctorname" data-width="auto"
+                    required>
+                    <option value="" selected disabled>Select a doctor</option>
+                    <option value="Dr. John Doe"> Dr. John Doe </option>
+                    <option value="Dr. Jane Smith"> Dr. Jane Smith </option>
+                    
+                </select>
+                <!-- <label for="doctor">Doctor</label> -->
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6">
+                <div class="form-floating mb-3 shadow">
+                    <select id="timeSlot" class="inputapp selectpicker" name="timeSlot" placeholder="timeSlot" data-width="auto"
+                        required>
+                        <option value="" selected disabled>Select a time-slot</option>
+                        <option value="9:00 AM"> 9:00 AM </option>
+                        <option value="9:20 AM"> 9:20 AM </option>
+                        <option value="9:40 AM"> 9:40 AM</option>
+                        <option value="10:00 AM"> 10:00 AM</option>
+                        <option value="10:20 AM"> 10:20 AM</option>
+                        <option value="10:20 AM"> 10:20 AM</option>
+                        <option value="10:40 AM"> 10:40 AM</option>
+                        <option value="11:00 AM"> 11:00 AM</option>
+                        <option value="11:20 AM"> 11:20 AM</option>
+                        <option value="11:40 AM"> 11:40 AM</option>
+                        <option value="12:00 PM"> 12:00 PM</option>
+                        <option value="12:20 PM"> 12:20 PM</option>
+                        <option value="12:40 PM"> 12:40 PM</option>
+                        <option value="1:00 PM"> 1:00 PM</option>
+                        <option value="1:20 PM"> 1:20 PM</option>
+                        <option value="1:40 PM"> 1:40 PM</option>
+                        <option value="2:00 PM"> 2:00 PM</option>
+                        <option value="2:20 PM"> 2:20 PM</option>
+                        <option value="2:40 PM"> 2:40 PM</option>
+                        <option value="3:00 PM"> 3:00 PM</option>
+                        <option value="3:20 PM"> 3:20 PM</option>
+                        <option value="3:40 PM"> 3:40 PM</option>
+                        <option value="4:00 PM"> 4:00 PM</option>
+                        <option value="4:20 PM"> 4:20 PM</option>
+                        <option value="4:40 PM"> 4:40 PM</option>
+                    </select>
+                    <!-- <label for="timeSlot">Time Slots</label> -->
+                </div>
+            </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-sm-12">
+                    <div class="form-floating mb-3 shadow">
+                        <input type="text" class="inputapp" id="medicine" name="medicine" placeholder="Medicine name" required>
+                        <!-- <label for="Medicine">Medicine</label> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-sm-12">
+                    <div class="form-floating mb-3 shadow">
+                        <input type="text" class="inputapp" id="disease" name="disease" placeholder="Disease name" required>
+                        <!-- <label for="disease">Disease</label> -->
+                    </div>
+                </div>
+            </div>
+            
+
+
+            
+            <div class="text-center">
+                <button class="btn btn-primary mt-4 col-3" type="submit">Report</button>
+            </div>
+
+        </form>
+    </div>
+
+
+
+    <%- include('../partials/footer') %>
+    
