@@ -7,6 +7,7 @@ const Payment = require('../models/payment');
 const Paymenthistory = require('../models/paymenthistory');
 const Managercheck = require('../models/managercheck');
 const Appointment = require('../models/appointment');
+const Report = require('../models/report');
 const validator = require('validator');
 
 
@@ -15,6 +16,7 @@ const validator = require('validator');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const appointment = require('../models/appointment');
 const SECRET = process.env.SECRET;
 
 
@@ -676,7 +678,7 @@ const manager_get = async (req, res) => {
         const phone = req.params.phone; // use req.params.username to get the username
         const manager = await User.findOne({ phone: phone });
         // console.log(manager);
-        res.render('manager/index', { manager: manager, err: undefined });
+        res.render('manager/index', { customer: manager, err: undefined });
     } catch (error) {
         res.status(404).render('404', { err: `manager_get error` });
         // console.log(error);
@@ -2028,8 +2030,78 @@ const createAppointment_manager = async(req, res) => {
       });
 };
 
-  
-  
+
+const manager_report_get = async (req, res) => {
+    try {
+        const phone = req.params.phone;
+        const manager = await User.findOne({ phone:phone });
+        if (manager) {
+            res.render('manager/report', { customer: manager });
+        }
+        else {
+            // res.send("Customer not found");
+            res.status(404).render('404', { err: 'Customer not found' });
+        }
+    } catch (error) {
+        // console.log(error);
+        // res.send("Customer not found");
+        res.status(404).render('404', { err: 'customer_faq_get error' });
+    }
+}
+
+const manager_report_post = async (req, res) => {
+
+    const phone = req.params.phone;
+    const manager = await User.findOne({ phone:phone });
+        const report = new Report({
+            fullname: req.body.fullname,
+            //username: req.body.username,
+            //email: req.body.email,
+            //password: req.body.password,
+            phone: req.body.phone,
+           // role: req.body.role,
+            gender: req.body.gender,
+            date: req.body.date,
+            doctor: req.body.doctor,
+            medicine: req.body.medicine,
+            disease: req.body.disease,
+            timeSlot: req.body.timeSlot
+        });
+        //verify username and email in the database if already exists
+
+        //const foundUser = await User.findOne({ username: user.username });
+        const foundUser = await Appointment.findOne({ phone: report.phone });
+        //const customer = await User.findOne({phone})
+        // console.log(foundUser);
+        // console.log(report);
+        // console.log(foundUser.phone);
+        // console.log(report.phone);
+        // console.log((foundUser.phone===report.phone) && (report.timeSlot===foundUser.timeSlot) && (report.doctor===foundUser.doctor));
+        // console.log(report.date);
+        // console.log(foundUser.date);
+        // console.log(new Date(report.date).getTime()===new Date(foundUser.date).getTime());
+
+        if ((foundUser.phone===report.phone) && (report.fullname===foundUser.fullname) && (new Date(report.date).getTime()===new Date(foundUser.date).getTime()) && (report.timeSlot===foundUser.timeSlot) && (report.doctor===foundUser.doctor) ) {
+            console.log("andar to jay 6e");
+            report.save().then(() => {
+                res.status(200).render('manager/report', {  customer: manager,err: 'Please verify your email to log in successfully.' });
+                // res.status(201).render('login', { err: 'Your account is succesfully created.' });
+            }).catch((err) => {
+                console.log(err);
+            }
+            );
+        }
+        else{
+            console.log("nai thayu");
+            const err = 'Appointment is not booked yet.';
+            res.status(500).render('manager/report', {customer: manager, err });
+        }
+        
+
+    // } catch (error) {
+    //     res.status(404).render('404', { err: "Signup_post error" });
+    // }
+}
   
 
 
@@ -2117,7 +2189,10 @@ module.exports = {
 
     verifyMail,
     sendVerifyMail,
-    logout_get
+    logout_get,
+
+    manager_report_get,
+    manager_report_post
 
 
 };
