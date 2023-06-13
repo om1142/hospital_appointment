@@ -2034,9 +2034,11 @@ const createAppointment_manager = async(req, res) => {
 const manager_report_get = async (req, res) => {
     try {
         const phone = req.params.phone;
+        const phone1 = req.params.phone1;
         const manager = await User.findOne({ phone:phone });
+        const patient1 = await Appointment.findOne({ phone: phone1 });
         if (manager) {
-            res.render('manager/report', { customer: manager });
+            res.render('manager/report', { customer: manager ,patient: patient1 });
         }
         else {
             // res.send("Customer not found");
@@ -2052,28 +2054,31 @@ const manager_report_get = async (req, res) => {
 const manager_report_post = async (req, res) => {
 
     const phone = req.params.phone;
+    const phone1 = req.params.phone1;
     const manager = await User.findOne({ phone:phone });
+    const patient1 = await Appointment.findOne({ phone: phone1 });
         const report = new Report({
-            fullname: req.body.fullname,
+            fullname: patient1.fullname,
             //username: req.body.username,
             //email: req.body.email,
             //password: req.body.password,
-            phone: req.body.phone,
+            phone: patient1.phone,
            // role: req.body.role,
             gender: req.body.gender,
-            date: req.body.date,
-            doctor: req.body.doctor,
+            date: patient1.date,
+            doctor: patient1.doctor,
             medicine: req.body.medicine,
             disease: req.body.disease,
-            timeSlot: req.body.timeSlot
+            timeSlot: patient1.timeSlot,
+            visited: true
         });
         //verify username and email in the database if already exists
 
         //const foundUser = await User.findOne({ username: user.username });
-        const foundUser = await Appointment.findOne({ phone: report.phone });
+        //const foundUser = await Appointment.findOne({ phone: report.phone });
         //const customer = await User.findOne({phone})
-        // console.log(foundUser);
-        // console.log(report);
+         //console.log(foundUser);
+         //console.log(report);
         // console.log(foundUser.phone);
         // console.log(report.phone);
         // console.log((foundUser.phone===report.phone) && (report.timeSlot===foundUser.timeSlot) && (report.doctor===foundUser.doctor));
@@ -2081,10 +2086,19 @@ const manager_report_post = async (req, res) => {
         // console.log(foundUser.date);
         // console.log(new Date(report.date).getTime()===new Date(foundUser.date).getTime());
 
-        if ((foundUser.phone===report.phone) && (report.fullname===foundUser.fullname) && (new Date(report.date).getTime()===new Date(foundUser.date).getTime()) && (report.timeSlot===foundUser.timeSlot) && (report.doctor===foundUser.doctor) ) {
+        if (manager ) {
             console.log("andar to jay 6e");
-            report.save().then(() => {
-                res.status(200).render('manager/report', {  customer: manager,err: 'Please verify your email to log in successfully.' });
+            //report.visited=true;
+            report.save().then(async() => {
+                const doctor1 = 'Dr. John Doe';
+                const doctor2 = 'Dr. Jane Smith';
+                const currentDate = new Date();
+                const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0);
+                const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
+                const appointments1 = await Appointment.find({doctor:doctor1,date: {$gte: startOfDay,$lte: endOfDay}});
+                const appointments2 = await Appointment.find({doctor:doctor2,date: {$gte: startOfDay,$lte: endOfDay}});
+                res.status(200).render('manager/index', { customer: manager,appointments1,appointments2, err: `Report saved`  });
+                // res.status(200).render('manager/index', {  customer: manager, err: `Report saved`  });
                 // res.status(201).render('login', { err: 'Your account is succesfully created.' });
             }).catch((err) => {
                 console.log(err);
@@ -2103,6 +2117,31 @@ const manager_report_post = async (req, res) => {
     // }
 }
   
+const viewreport_get = async (req, res) => {
+    try {
+        //const { managerMobileNumber, userMobileNumber } = req.params;
+        const phone = req.params.phone;
+        const phone1 = req.params.phone1;
+        const manager = await User.findOne({ phone:phone });
+        const patient = await Report.findOne({ phone: phone1 });
+        const patient1 = await Appointment.findOne({ phone: phone1 });
+        if (manager && patient && patient.visited) {
+            res.render('manager/viewreport', { customer: manager , patient: patient });
+        }
+        else if(manager && patient1){
+            res.render('manager/report', { customer: manager , patient: patient1 });
+        }
+        else {
+            // res.send("Customer not found");
+            res.status(404).render('404', { err: 'Customer not found' });
+        }
+    } catch (error) {
+        // console.log(error);
+        // res.send("Customer not found");
+        res.status(404).render('404', { err: 'customer_faq_get error' });
+    }
+}
+
 
 
 const logout_get = (req, res) => {
@@ -2192,7 +2231,8 @@ module.exports = {
     logout_get,
 
     manager_report_get,
-    manager_report_post
+    manager_report_post,
+    viewreport_get,
 
 
 };
