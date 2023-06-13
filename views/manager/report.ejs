@@ -11,13 +11,13 @@
         <div class="text-center fs-2 mt-3 text-dark">Report</div>
         <div class="text-center mb-5 text-dark">Provide the details of the patient.</div>
 
-        <form action="/manager/<%=customer.phone%>/report" method="post">
-
+        <form action="/manager/<%=customer.phone%>/report/<%= patient.phone %>" method="post">
+            
             <div class="row">
                 <div class="col-12 col-sm-12">
                     <div class="form-floating mb-3 shadow">
                         <!-- <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Full name" required> -->
-                        <input class="inputapp" type="text" id="fullname" name="fullname" placeholder="Patient Name" required>
+                        <input class="inputapp" type="text" id="fullname" name="fullname" value="<%= patient.fullname  %>" placeholder="Patient Name" required disabled>
                         <!-- <label for="fullname">Full name</label> -->
                     </div>
                 </div>
@@ -26,8 +26,8 @@
             <div class="row">
                 <div class="col-12 col-sm-12">
                     <div class="form-floating mb-3 shadow">
-                        <input type="tel" class="inputapp" id="phone-number" name="phone" placeholder="Phone Number"
-                            pattern="[0-9]{10}" required>
+                        <input type="tel" class="inputapp" id="phone-number" name="phone" value="<%= patient.phone  %>" placeholder="Phone Number"
+                            pattern="[0-9]{10}" required disabled>
                         <!-- <label for="phone-number">Phone number</label> -->
                     </div>
                 </div>
@@ -50,7 +50,7 @@
 
                 <div class="col-12 col-sm-6">
                     <div class="form-floating mb-3 shadow">
-                        <input type="date" class="inputapp" id="date" name="date" placeholder="date" max="9999-12-31" required>
+                        <input type="date" class="inputapp" id="date" name="date" placeholder="date" value="<%= patient.date.toISOString().slice(0 ,10) %>" max="9999-12-31" required disabled>
                         <!-- <label for="date">Date</label> -->
                     </div>
                 </div>
@@ -59,9 +59,9 @@
             <div class="row">
             <div class="col-12 col-sm-6 ">
                 <div class="form-floating mb-3 shadow">
-                <select id="doctor" class="inputapp selectpicker" name="doctor" placeholder="doctorname" data-width="auto"
-                    required>
-                    <option value="" selected disabled>Select a doctor</option>
+                <select id="doctor" class="inputapp selectpicker" name="doctor" placeholder="doctorname" value="<%= patient.doctor  %>" data-width="auto"
+                    required disabled>
+                    <!-- <option value="" selected disabled>Select a doctor</option> -->
                     <option value="Dr. John Doe"> Dr. John Doe </option>
                     <option value="Dr. Jane Smith"> Dr. Jane Smith </option>
                     
@@ -72,9 +72,9 @@
 
             <div class="col-12 col-sm-6">
                 <div class="form-floating mb-3 shadow">
-                    <select id="timeSlot" class="inputapp selectpicker" name="timeSlot" placeholder="timeSlot" data-width="auto"
-                        required>
-                        <option value="" selected disabled>Select a time-slot</option>
+                    <select id="timeSlot" class="inputapp selectpicker" name="timeSlot" placeholder="timeSlot" data-width="auto" value="<%= patient.timeSlot %>"
+                        required disabled>
+                        <!-- <option value="" selected disabled>Select a time-slot</option> -->
                         <option value="9:00 AM"> 9:00 AM </option>
                         <option value="9:20 AM"> 9:20 AM </option>
                         <option value="9:40 AM"> 9:40 AM</option>
