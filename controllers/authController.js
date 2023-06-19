@@ -439,7 +439,27 @@ const customer_get = async (req, res) => {
             const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
             const appointments1 = await Appointment.find({doctor:doctor1,date: {$gte: startOfDay,$lte: endOfDay}});
             const appointments2 = await Appointment.find({doctor:doctor2,date: {$gte: startOfDay,$lte: endOfDay}});
-            res.render('manager/index', { customer: customer,appointments1,appointments2, err: undefined });
+            const reportPromises1 = appointments1.map(appointment => Report.findOne({ phone: appointment.phone }));
+            const reports = await Promise.all(reportPromises1);
+            const appointmentsWithReports1 = appointments1.map((appointment, index) => {
+                const report = reports[index];
+                return {
+                  ...appointment.toObject(),
+                  reportVisited: report ? report.visited : false
+                };
+              });
+
+              const reportPromises2 = appointments2.map(appointment => Report.findOne({ phone: appointment.phone }));
+              const reports2 = await Promise.all(reportPromises2);
+              const appointmentsWithReports2 = appointments2.map((appointment, index) => {
+                  const report = reports2[index];
+                  return {
+                    ...appointment.toObject(),
+                    reportVisited: report ? report.visited : false
+                  };
+                });
+            //console.log(appointmentsWithReports1.reportVisited);
+            res.render('manager/index', { customer: customer,appointments1:appointmentsWithReports1,appointments2:appointmentsWithReports2, err: undefined });
         }
         else{
             const today = new Date();
@@ -2099,7 +2119,28 @@ const manager_report_post = async (req, res) => {
                 const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
                 const appointments1 = await Appointment.find({doctor:doctor1,date: {$gte: startOfDay,$lte: endOfDay}});
                 const appointments2 = await Appointment.find({doctor:doctor2,date: {$gte: startOfDay,$lte: endOfDay}});
-                res.status(200).render('manager/index', { customer: manager,appointments1,appointments2, err: `Report saved`  });
+
+                const reportPromises1 = appointments1.map(appointment => Report.findOne({ phone: appointment.phone }));
+                const reports = await Promise.all(reportPromises1);
+                const appointmentsWithReports1 = appointments1.map((appointment, index) => {
+                    const report = reports[index];
+                    return {
+                      ...appointment.toObject(),
+                      reportVisited: report ? report.visited : false
+                    };
+                  });
+    
+                  const reportPromises2 = appointments2.map(appointment => Report.findOne({ phone: appointment.phone }));
+                  const reports2 = await Promise.all(reportPromises2);
+                  const appointmentsWithReports2 = appointments2.map((appointment, index) => {
+                      const report = reports2[index];
+                      return {
+                        ...appointment.toObject(),
+                        reportVisited: report ? report.visited : false
+                      };
+                    });
+
+                res.status(200).render('manager/index', { customer: manager,appointments1:appointmentsWithReports1,appointments2:appointmentsWithReports2, err: `Report saved`  });
                 // res.status(200).render('manager/index', {  customer: manager, err: `Report saved`  });
                 // res.status(201).render('login', { err: 'Your account is succesfully created.' });
             }).catch((err) => {
@@ -2160,7 +2201,17 @@ const manager_history_get = async (req, res) => {
             } else {
                 appointments1 = await Appointment.find({ date: { $lt: today } });
             }
-            res.render('manager/history', { customer: manager , appointments1, err: undefined });
+            const reportPromises = appointments1.map(appointment => Report.findOne({ phone: appointment.phone }));
+            const reports = await Promise.all(reportPromises);
+            const appointmentsWithReports = appointments1.map((appointment, index) => {
+                const report = reports[index];
+                return {
+                  ...appointment.toObject(),
+                  reportVisited: report ? report.visited : false
+                };
+              });
+            //console.log(reports.phone);
+            res.render('manager/history', { customer: manager , appointments1:appointmentsWithReports , err: undefined });
         }
         else {
             // res.send("Customer not found");
