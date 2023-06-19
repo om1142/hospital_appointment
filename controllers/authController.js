@@ -162,7 +162,8 @@ const login_post = async (req, res) => {
                     res.cookie('jwt', '', { maxAge: 1 });
                     const token = createToken(customer._id);
                     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-                    const upcomingAppointments = await Appointment.find({ phone: phone });
+                    const today = new Date();
+                    const upcomingAppointments = await Appointment.find({ phone: phone, date: { $gte: today } });
                     res.status(201).render('customer/index', { customer, upcomingAppointments, err: 'You have logged in successfully.' });
                 }
             } else {
@@ -441,7 +442,8 @@ const customer_get = async (req, res) => {
             res.render('manager/index', { customer: customer,appointments1,appointments2, err: undefined });
         }
         else{
-            const upcomingAppointments = await Appointment.find({ phone: phone });
+            const today = new Date();
+            const upcomingAppointments = await Appointment.find({ phone: phone, date: { $gte: today } });
             res.render('customer/index', { customer: customer, upcomingAppointments, err: undefined });
         }
     } catch (error) {
@@ -2144,6 +2146,54 @@ const viewreport_get = async (req, res) => {
 
 
 
+const manager_history_get = async (req, res) => {
+    try {
+        const phone = req.params.phone;
+        const searchPhone = req.query.phone;
+        const manager = await User.findOne({ phone:phone });
+        if(phone==="9173505413" && manager){
+            const today = new Date();
+            let appointments1;
+      
+            if (searchPhone) {
+                appointments1 = await Appointment.find({ phone: searchPhone, date: { $lt: today } });
+            } else {
+                appointments1 = await Appointment.find({ date: { $lt: today } });
+            }
+            res.render('manager/history', { customer: manager , appointments1, err: undefined });
+        }
+        else {
+            // res.send("Customer not found");
+            res.status(404).render('404', { err: 'Customer not found' });
+        }
+    } catch (error) {
+        // console.log(error);
+        // res.send("Customer not found");
+        res.status(404).render('404', { err: 'customer_faq_get error' });
+    }
+}
+
+const customer_history_get = async (req, res) => {
+    try {
+        const phone = req.params.phone;
+        const customer = await User.findOne({ phone:phone });
+        if( customer ){
+            const today = new Date();
+            let appointments1;
+            appointments1 = await Appointment.find({ phone: phone,  date: { $lt: today } });
+            res.render('customer/history', { customer: customer , appointments1, err: undefined });
+        }
+        else {
+            // res.send("Customer not found");
+            res.status(404).render('404', { err: 'Customer not found' });
+        }
+    } catch (error) {
+        // console.log(error);
+        // res.send("Customer not found");
+        res.status(404).render('404', { err: 'customer_faq_get error' });
+    }
+}
+
 const logout_get = (req, res) => {
     res.cookie('jwt', '', { maxAge: 1 });
     res.render('home');
@@ -2233,6 +2283,9 @@ module.exports = {
     manager_report_get,
     manager_report_post,
     viewreport_get,
+
+    manager_history_get,
+    customer_history_get,
 
 
 };

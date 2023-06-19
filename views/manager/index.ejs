@@ -67,16 +67,59 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% appointments1.forEach((appointment, index) => { %>
+                    <% if (appointments1.length === 0) { %>
                       <tr>
-                        <td><%= index + 1 %></td>
-                        
-                        <td><%= appointment.timeSlot %></td>
-                        <td><%= appointment.fullname %></td>
-                        <td><%= appointment.phone %></td>
-                        <td><a href="/manager/<%=customer.phone%>/viewreport/<%= appointment.phone %>" style="text-decoration:none;">Report</a></td>
+                        <td colspan="5" >No Appointments Found.</td>
                       </tr>
-                    <% }) %>
+                    <% } else { %>
+                      <% appointments1
+                      .sort((a, b) => {
+                        
+                        
+                          // Dates are equal, compare time
+                          const [hourA, minuteA, periodA] = a.timeSlot.split(/:|(?=[AP]M)/);
+                          const [hourB, minuteB, periodB] = b.timeSlot.split(/:|(?=[AP]M)/);
+                  
+                          let hour24A = parseInt(hourA);
+                          let hour24B = parseInt(hourB);
+                  
+                          if (periodA === 'PM' && hour24A !== 12) {
+                            hour24A += 12;
+                          } else if (periodA === 'AM' && hour24A === 12) {
+                            hour24A = 0;
+                          }
+                  
+                          if (periodB === 'PM' && hour24B !== 12) {
+                            hour24B += 12;
+                          } else if (periodB === 'AM' && hour24B === 12) {
+                            hour24B = 0;
+                          }
+                  
+                          if (hour24A > hour24B) {
+                            return -1;
+                          } else if (hour24A < hour24B) {
+                            return 1;
+                          } else {
+                            if (parseInt(minuteA) > parseInt(minuteB)) {
+                              return -1;
+                            } else if (parseInt(minuteA) < parseInt(minuteB)) {
+                              return 1;
+                            } else {
+                              return 0;
+                            }
+                          }
+                      })
+                      .forEach((appointment, index) => { %>
+                        <tr>
+                          <td><%= index + 1 %></td>
+                          
+                          <td><%= appointment.timeSlot %></td>
+                          <td><%= appointment.fullname %></td>
+                          <td><%= appointment.phone %></td>
+                          <td><a href="/manager/<%=customer.phone%>/viewreport/<%= appointment.phone %>" style="text-decoration:none;">Report</a></td>
+                        </tr>
+                      <% }) %>
+                    <% } %>
                   
                   </tbody>
                 </table>
