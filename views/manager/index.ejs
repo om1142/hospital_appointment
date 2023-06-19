@@ -96,14 +96,14 @@
                           }
                   
                           if (hour24A > hour24B) {
-                            return -1;
-                          } else if (hour24A < hour24B) {
                             return 1;
+                          } else if (hour24A < hour24B) {
+                            return -1;
                           } else {
                             if (parseInt(minuteA) > parseInt(minuteB)) {
-                              return -1;
-                            } else if (parseInt(minuteA) < parseInt(minuteB)) {
                               return 1;
+                            } else if (parseInt(minuteA) < parseInt(minuteB)) {
+                              return -1;
                             } else {
                               return 0;
                             }
@@ -147,7 +147,49 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% appointments2.forEach((appointment, index) => { %>
+                    <% if (appointments2.length === 0) { %>
+                      <tr>
+                        <td colspan="5" >No Appointments Found.</td>
+                      </tr>
+                    <% } else { %>
+                      <% appointments2
+                      .sort((a, b) => {
+                        
+                        
+                          // Dates are equal, compare time
+                          const [hourA, minuteA, periodA] = a.timeSlot.split(/:|(?=[AP]M)/);
+                          const [hourB, minuteB, periodB] = b.timeSlot.split(/:|(?=[AP]M)/);
+                  
+                          let hour24A = parseInt(hourA);
+                          let hour24B = parseInt(hourB);
+                  
+                          if (periodA === 'PM' && hour24A !== 12) {
+                            hour24A += 12;
+                          } else if (periodA === 'AM' && hour24A === 12) {
+                            hour24A = 0;
+                          }
+                  
+                          if (periodB === 'PM' && hour24B !== 12) {
+                            hour24B += 12;
+                          } else if (periodB === 'AM' && hour24B === 12) {
+                            hour24B = 0;
+                          }
+                  
+                          if (hour24A > hour24B) {
+                            return 1;
+                          } else if (hour24A < hour24B) {
+                            return -1;
+                          } else {
+                            if (parseInt(minuteA) > parseInt(minuteB)) {
+                              return 1;
+                            } else if (parseInt(minuteA) < parseInt(minuteB)) {
+                              return -1;
+                            } else {
+                              return 0;
+                            }
+                          }
+                      })
+                     .forEach((appointment, index) => { %>
                       <tr>
                         <td><%= index + 1 %></td>
                         
@@ -161,7 +203,8 @@
                         <% } %>
                       </td>
                       </tr>
-                    <% }) %>
+                      <% }) %>
+                    <% } %>
                    
                   </tbody>
                 </table>
