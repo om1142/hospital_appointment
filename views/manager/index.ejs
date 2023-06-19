@@ -116,7 +116,12 @@
                           <td><%= appointment.timeSlot %></td>
                           <td><%= appointment.fullname %></td>
                           <td><%= appointment.phone %></td>
-                          <td><a href="/manager/<%=customer.phone%>/viewreport/<%= appointment.phone %>" style="text-decoration:none;">Report</a></td>
+                          <td><% if (appointment.reportVisited) { %>
+                          <a href="/manager/<%= customer.phone %>/viewreport/<%= appointment.phone %>" style="text-decoration:none;">View Report</a>
+                        <% } else { %>
+                          <a href="/manager/<%= customer.phone %>/viewreport/<%= appointment.phone %>" style="text-decoration:none;"> Edit Report</a>
+                        <% } %>
+                      </td>
                         </tr>
                       <% }) %>
                     <% } %>
@@ -149,7 +154,12 @@
                         <td><%= appointment.timeSlot %></td>
                         <td><%= appointment.fullname %></td>
                         <td><%= appointment.phone %></td>
-                        <td><a href="/manager/<%=customer.phone%>/viewreport/<%= appointment.phone %>" style="text-decoration:none;">Report</a></td>
+                        <td><% if (appointment.reportVisited) { %>
+                          <a href="/manager/<%= customer.phone %>/viewreport/<%= appointment.phone %>" style="text-decoration:none;">View Report</a>
+                        <% } else { %>
+                          <a href="/manager/<%= customer.phone %>/viewreport/<%= appointment.phone %>" style="text-decoration:none;"> Edit Report</a>
+                        <% } %>
+                      </td>
                       </tr>
                     <% }) %>
                    
