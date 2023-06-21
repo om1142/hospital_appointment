@@ -138,13 +138,15 @@ router.get('/home', (req, res) => {
 }
 );
 
-router.get('/manager/:phone/report/:phone1', requireAuth, authController.manager_report_get);
-router.post('/manager/:phone/report/:phone1', requireAuth, authController.manager_report_post);
+router.get('/manager/:phone/report/:phone1/:date/:time', requireAuth, authController.manager_report_get);
+router.post('/manager/:phone/report/:phone1/:date/:time', requireAuth, authController.manager_report_post);
 
-router.get('/manager/:phone/viewreport/:phone1', requireAuth, authController.viewreport_get);
+router.get('/manager/:phone/viewreport/:phone1/:date/:time', requireAuth, authController.viewreport_get);
 
 router.get('/manager/:phone/history', requireAuth, authController.manager_history_get);
 router.get('/customer/:phone/history', requireAuth, authController.customer_history_get);
+
+router.get('/customer/:phone/viewreport/:date/:time', requireAuth, authController.customer_viewreport_get);
 
 router.use((req, res) => {
     res.status(404).render('404', { err: '404 page not found' });

@@ -439,7 +439,7 @@ const customer_get = async (req, res) => {
             const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
             const appointments1 = await Appointment.find({doctor:doctor1,date: {$gte: startOfDay,$lte: endOfDay}});
             const appointments2 = await Appointment.find({doctor:doctor2,date: {$gte: startOfDay,$lte: endOfDay}});
-            const reportPromises1 = appointments1.map(appointment => Report.findOne({ phone: appointment.phone }));
+            const reportPromises1 = appointments1.map(appointment => Report.findOne({ phone: appointment.phone, date:appointment.date, timeSlot:appointment.timeSlot }));
             const reports = await Promise.all(reportPromises1);
             const appointmentsWithReports1 = appointments1.map((appointment, index) => {
                 const report = reports[index];
@@ -2057,8 +2057,10 @@ const manager_report_get = async (req, res) => {
     try {
         const phone = req.params.phone;
         const phone1 = req.params.phone1;
+        const date = req.params.date;
+        const time = req.params.time;
         const manager = await User.findOne({ phone:phone });
-        const patient1 = await Appointment.findOne({ phone: phone1 });
+        const patient1 = await Appointment.findOne({ phone: phone1 ,date:date,timeSlot:time});
         if (manager) {
             res.render('manager/report', { customer: manager ,patient: patient1 });
         }
@@ -2077,8 +2079,10 @@ const manager_report_post = async (req, res) => {
 
     const phone = req.params.phone;
     const phone1 = req.params.phone1;
+    const date = req.params.date;
+    const time = req.params.time;
     const manager = await User.findOne({ phone:phone });
-    const patient1 = await Appointment.findOne({ phone: phone1 });
+    const patient1 = await Appointment.findOne({ phone: phone1 ,date:date,timeSlot:time});
         const report = new Report({
             fullname: patient1.fullname,
             //username: req.body.username,
@@ -2165,9 +2169,11 @@ const viewreport_get = async (req, res) => {
         //const { managerMobileNumber, userMobileNumber } = req.params;
         const phone = req.params.phone;
         const phone1 = req.params.phone1;
+        const date = req.params.date;
+        const time = req.params.time;
         const manager = await User.findOne({ phone:phone });
-        const patient = await Report.findOne({ phone: phone1 });
-        const patient1 = await Appointment.findOne({ phone: phone1 });
+        const patient = await Report.findOne({ phone: phone1 , date:date,timeSlot:time });
+        const patient1 = await Appointment.findOne({ phone: phone1, date:date,timeSlot:time });
         if (manager && patient && patient.visited) {
             res.render('manager/viewreport', { customer: manager , patient: patient });
         }
@@ -2201,7 +2207,7 @@ const manager_history_get = async (req, res) => {
             } else {
                 appointments1 = await Appointment.find({ date: { $lt: today } });
             }
-            const reportPromises = appointments1.map(appointment => Report.findOne({ phone: appointment.phone }));
+            const reportPromises = appointments1.map(appointment => Report.findOne({ phone: appointment.phone , date:appointment.date, timeSlot:appointment.timeSlot}));
             const reports = await Promise.all(reportPromises);
             const appointmentsWithReports = appointments1.map((appointment, index) => {
                 const report = reports[index];
@@ -2233,6 +2239,39 @@ const customer_history_get = async (req, res) => {
             let appointments1;
             appointments1 = await Appointment.find({ phone: phone,  date: { $lt: today } });
             res.render('customer/history', { customer: customer , appointments1, err: undefined });
+        }
+        else {
+            // res.send("Customer not found");
+            res.status(404).render('404', { err: 'Customer not found' });
+        }
+    } catch (error) {
+        // console.log(error);
+        // res.send("Customer not found");
+        res.status(404).render('404', { err: 'customer_faq_get error' });
+    }
+}
+
+const customer_viewreport_get = async (req, res) => {
+    try {
+        //const { managerMobileNumber, userMobileNumber } = req.params;
+        const phone = req.params.phone;
+        const date = req.params.date;
+        const time = req.params.time;
+        //const phone1 = req.params.phone1;
+        const patient = await User.findOne({ phone:phone });
+        //const patient = await Report.findOne({ phone: phone1 });
+
+        const patient1 = await Report.findOne({ phone: phone, date:date , timeSlot:time });
+
+        //console.log(patient1);
+        if ( patient && patient1.visited) {
+            res.render('customer/viewreport', { customer: patient , patient: patient1 });
+        }
+        else if(patient){
+            const today = new Date();
+            let appointments1;
+            appointments1 = await Appointment.find({ phone: phone,  date: { $lt: today } });
+            res.render('customer/history', { customer: patient,appointments1 ,err: `Report not made yet` });
         }
         else {
             // res.send("Customer not found");
@@ -2337,6 +2376,7 @@ module.exports = {
 
     manager_history_get,
     customer_history_get,
+    customer_viewreport_get,
 
 
 };
