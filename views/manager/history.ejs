@@ -126,15 +126,16 @@
                       <td><%= appointment.phone %></td>
                       <td><%= appointment.doctor %></td>
                       <td><% if (appointment.reportVisited) { %>
-                          <a href="/manager/<%= customer.phone %>/viewreport/<%= appointment.phone %>" style="text-decoration:none;">View Report</a>
+                          <a href="/manager/<%= customer.phone %>/viewreport/<%= appointment.phone %>/<%= appointment.date %>/<%= appointment.timeSlot %>" style="text-decoration:none;">View Report</a>
                         <% } else { %>
-                          <a href="/manager/<%= customer.phone %>/viewreport/<%= appointment.phone %>" style="text-decoration:none;"> Edit Report</a>
+                          <a href="/manager/<%= customer.phone %>/viewreport/<%= appointment.phone %>/<%= appointment.date %>/<%= appointment.timeSlot %>" style="text-decoration:none;"> Edit Report</a>
                         <% } %>
                       </td>
                     </tr>
                   <% }) %>
                 <% } %>
-              
+     
+                
               </tbody>
             </table>
 

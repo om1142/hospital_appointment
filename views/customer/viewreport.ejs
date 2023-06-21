@@ -1,0 +1,118 @@
+<%- include('../partials/header_cadet') %>
+ 
+<div class="bg-lblue">
+    <div style="padding-top: 100px;">
+<div id="wrapper">
+    <%- include('../partials/nav_home_manager') %>
+</div>
+
+
+    <div class="container bg-image shadow-lg mt-3 col-md-6 col-xl-6 px-5 py-4 mb-5 rounded-5" style="background-image: url(/photos/bg.jpg);">
+        <div class="text-center fs-2 mt-3 text-dark">Report details</div>
+
+        <div class="row my-5">
+            <div class="col-2"></div>
+            <div class="col-lg-8">
+                <div class="mb-4">
+                    <div class="nothing">
+                        
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <p class="mb-0">Patient Name</p>
+                            </div>
+                            <div class="col-sm-8">
+                                <p class="text-muted mb-0"><%= patient.fullname%></p>
+                            </div>
+                        </div>
+                        <hr>
+                        
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <p class="mb-0">Phone</p>
+                            </div>
+                            <div class="col-sm-8">
+                                <p class="text-muted mb-0"><%= patient.phone%></p>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <p class="mb-0">Gender</p>
+                            </div>
+                            <div class="col-sm-8">
+                                <p class="text-muted mb-0"><%= patient.gender%></p>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <p class="mb-0">Date</p>
+                            </div>
+                            <div class="col-sm-8">
+                                <% const dateObj = new Date(patient.date); %>
+                                <% const day = dateObj.getDate().toString().padStart(2, '0'); %>
+                                <% const month = (dateObj.getMonth() + 1).toString().padStart(2, '0'); %>
+                                <% const year = dateObj.getFullYear(); %>
+                                <p class="text-muted mb-0"><%= `${day}/${month}/${year}` %></p>
+                              </div>                                              
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <p class="mb-0">Doctor Name</p>
+                            </div>
+                            <div class="col-sm-8">
+                                <p class="text-muted mb-0"><%= patient.doctor%></p>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <p class="mb-0">Time Slot</p>
+                            </div>
+                            <div class="col-sm-8">
+                                <p class="text-muted mb-0"><%= patient.timeSlot%></p>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <p class="mb-0">Medicine</p>
+                            </div>
+                            <div class="col-sm-8">
+                                <p class="text-muted mb-0"><%= patient.medicine%></p>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <p class="mb-0">Disease</p>
+                            </div>
+                            <div class="col-sm-8">
+                                <p class="text-muted mb-0"><%= patient.disease%></p>
+                            </div>
+                        </div>
+                        <hr>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container text-center mt-2">
+                    <a href="/customer/<%=customer.phone%>/edit" class="btn btn-primary">Edit Profile</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <%- include('../partials/footer') %>
+    

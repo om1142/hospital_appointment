@@ -11,7 +11,7 @@
         <div class="text-center fs-2 mt-3 text-dark">Report</div>
         <div class="text-center mb-5 text-dark">Provide the details of the patient.</div>
 
-        <form action="/manager/<%=customer.phone%>/report/<%= patient.phone %>" method="post">
+        <form action="/manager/<%=customer.phone%>/report/<%= patient.phone %>/<%=patient.date %>/<%=patient.timeSlot%>" method="post">
             
             <div class="row">
                 <div class="col-12 col-sm-12">
@@ -59,23 +59,23 @@
             <div class="row">
             <div class="col-12 col-sm-6 ">
                 <div class="form-floating mb-3 shadow">
-                <select id="doctor" class="inputapp selectpicker" name="doctor" placeholder="doctorname" value="<%= patient.doctor  %>" data-width="auto"
-                    required disabled>
+                <!-- <select id="doctor" class="inputapp selectpicker" name="doctor" placeholder="doctorname" value="" data-width="auto" -->
+                    <!-- required disabled> -->
                     <!-- <option value="" selected disabled>Select a doctor</option> -->
-                    <option value="Dr. John Doe"> Dr. John Doe </option>
-                    <option value="Dr. Jane Smith"> Dr. Jane Smith </option>
+                    <!-- <option value="Dr. John Doe"> Dr. John Doe </option> -->
+                    <!-- <option value="Dr. Jane Smith"> Dr. Jane Smith </option> -->
                     
-                </select>
+                <!-- </select> -->
+                <input class="inputapp" type="text" id="doctor" name="doctor" value="<%= patient.doctor  %>" placeholder="Doctor name" required disabled>
                 <!-- <label for="doctor">Doctor</label> -->
                 </div>
             </div>
 
             <div class="col-12 col-sm-6">
                 <div class="form-floating mb-3 shadow">
-                    <select id="timeSlot" class="inputapp selectpicker" name="timeSlot" placeholder="timeSlot" data-width="auto" value="<%= patient.timeSlot %>"
-                        required disabled>
+                        <input class="inputapp" type="text" id="timeSlot" name="timeSlot" value="<%= patient.timeSlot  %>" placeholder="Time Slot" required disabled>
                         <!-- <option value="" selected disabled>Select a time-slot</option> -->
-                        <option value="9:00 AM"> 9:00 AM </option>
+                        <!-- <option value="9:00 AM"> 9:00 AM </option>
                         <option value="9:20 AM"> 9:20 AM </option>
                         <option value="9:40 AM"> 9:40 AM</option>
                         <option value="10:00 AM"> 10:00 AM</option>
@@ -99,8 +99,8 @@
                         <option value="3:40 PM"> 3:40 PM</option>
                         <option value="4:00 PM"> 4:00 PM</option>
                         <option value="4:20 PM"> 4:20 PM</option>
-                        <option value="4:40 PM"> 4:40 PM</option>
-                    </select>
+                        <option value="4:40 PM"> 4:40 PM</option> -->
+                    <!-- </select> -->
                     <!-- <label for="timeSlot">Time Slots</label> -->
                 </div>
             </div>
