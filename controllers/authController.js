@@ -2238,7 +2238,16 @@ const customer_history_get = async (req, res) => {
             const today = new Date();
             let appointments1;
             appointments1 = await Appointment.find({ phone: phone,  date: { $lt: today } });
-            res.render('customer/history', { customer: customer , appointments1, err: undefined });
+            const reportPromises = appointments1.map(appointment => Report.findOne({ phone: appointment.phone , date:appointment.date, timeSlot:appointment.timeSlot}));
+            const reports = await Promise.all(reportPromises);
+            const appointmentsWithReports = appointments1.map((appointment, index) => {
+                const report = reports[index];
+                return {
+                  ...appointment.toObject(),
+                  reportVisited: report ? report.visited : false
+                };
+              });
+            res.render('customer/history', { customer: customer , appointments1:appointmentsWithReports, err: undefined });
         }
         else {
             // res.send("Customer not found");
@@ -2271,7 +2280,16 @@ const customer_viewreport_get = async (req, res) => {
             const today = new Date();
             let appointments1;
             appointments1 = await Appointment.find({ phone: phone,  date: { $lt: today } });
-            res.render('customer/history', { customer: patient,appointments1 ,err: `Report not made yet` });
+            const reportPromises = appointments1.map(appointment => Report.findOne({ phone: appointment.phone , date:appointment.date, timeSlot:appointment.timeSlot}));
+            const reports = await Promise.all(reportPromises);
+            const appointmentsWithReports = appointments1.map((appointment, index) => {
+                const report = reports[index];
+                return {
+                  ...appointment.toObject(),
+                  reportVisited: report ? report.visited : false
+                };
+              });
+            res.render('customer/history', { customer: patient,appointments1:appointmentsWithReports ,err: `Report not made yet` });
         }
         else {
             // res.send("Customer not found");
