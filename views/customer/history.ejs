@@ -117,7 +117,13 @@
                         <%= `${day}/${month}/${year}` %></td>
                       <td><%= appointment.timeSlot %></td>
                       <td><%= appointment.doctor %></td>
-                      <td><a href="/customer/<%=customer.phone%>/viewreport/<%=appointment.date %>/<%=appointment.timeSlot %>" style="text-decoration:none;">View Report</a></td>
+                      <td><% if (appointment.reportVisited) { %>
+                          <a href="/customer/<%=customer.phone%>/viewreport/<%=appointment.date %>/<%=appointment.timeSlot %>" style="text-decoration:none;">View Report</a>
+                        <% } else { %>
+                          <a>Report isn't available</a>
+                        <% } %>
+                      </td>
+                      
                     </tr>
                   <% }) %>
                 <% } %>
