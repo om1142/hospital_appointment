@@ -148,6 +148,10 @@ router.get('/customer/:phone/history', requireAuth, authController.customer_hist
 
 router.get('/customer/:phone/viewreport/:date/:time', requireAuth, authController.customer_viewreport_get);
 
+router.delete('/manager/:phone/history/:phone1/:date/:timeSlot', requireAuth, authController.manager_delete_appointment);
+
+router.delete('/customer/:phone/index/:phone1/:date/:timeSlot', requireAuth, authController.customer_delete_appointment);
+
 router.use((req, res) => {
     res.status(404).render('404', { err: '404 page not found' });
 }

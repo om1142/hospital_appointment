@@ -2199,13 +2199,12 @@ const manager_history_get = async (req, res) => {
         const searchPhone = req.query.phone;
         const manager = await User.findOne({ phone:phone });
         if(phone==="9173505413" && manager){
-            const today = new Date();
             let appointments1;
       
             if (searchPhone) {
-                appointments1 = await Appointment.find({ phone: searchPhone, date: { $lt: today } });
+                appointments1 = await Appointment.find({ phone: searchPhone });
             } else {
-                appointments1 = await Appointment.find({ date: { $lt: today } });
+                appointments1 = await Appointment.find({ });
             }
             const reportPromises = appointments1.map(appointment => Report.findOne({ phone: appointment.phone , date:appointment.date, timeSlot:appointment.timeSlot}));
             const reports = await Promise.all(reportPromises);
@@ -2302,6 +2301,58 @@ const customer_viewreport_get = async (req, res) => {
     }
 }
 
+const manager_delete_appointment = async (req, res) => {
+    try {
+        const phone = req.params.phone;
+      const phone1 = req.params.phone1;
+      const appointmentDate = req.params.date;
+      const appointmentTimeSlot = req.params.timeSlot;
+
+      const deletedAppointment = await Appointment.findOneAndDelete({
+        phone: phone1,
+        date: appointmentDate,
+        timeSlot: appointmentTimeSlot
+      });
+
+      
+
+      console.log(phone)
+      
+      if (deletedAppointment) {
+        res.redirect(`/manager/${phone}/history`);
+      } else {
+        res.status(404).render('404', { err: 'Appointment not found' });
+      }
+    } catch (error) {
+      res.status(404).render('404', { err: 'delete_appointment error' });
+    }
+}
+
+const customer_delete_appointment = async (req, res) => {
+    try {
+        const phone = req.params.phone;
+      const phone1 = req.params.phone1;
+      const appointmentDate = req.params.date;
+      const appointmentTimeSlot = req.params.timeSlot;
+      const deletedAppointment = await Appointment.findOneAndDelete({
+        phone: phone1,
+        date: appointmentDate,
+        timeSlot: appointmentTimeSlot
+      });
+
+      console.log(phone)
+      
+      if (deletedAppointment) {
+        res.redirect(`/customer/${phone}`);
+      } else {
+        res.status(404).render('404', { err: 'Appointment not found' });
+      }
+    } catch (error) {
+      res.status(404).render('404', { err: 'delete_appointment error' });
+    }    
+}
+
+
 const logout_get = (req, res) => {
     res.cookie('jwt', '', { maxAge: 1 });
     res.render('home');
@@ -2395,6 +2446,9 @@ module.exports = {
     manager_history_get,
     customer_history_get,
     customer_viewreport_get,
+
+    manager_delete_appointment,
+    customer_delete_appointment,
 
 
 };

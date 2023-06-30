@@ -118,19 +118,13 @@
                         <%= `${day}/${month}/${year}` %></div>
                         <div class="appointment-time"><%= appointment.timeSlot %></div>
                         <div class="appointment-doctor"><%= appointment.doctor %></div>
-                        <button class="reshedulebtn rounded-2 p-2">Reschedule the Appointment</button>
+                        <form action="/customer/<%= customer.phone %>/index/<%= appointment.phone %>/<%= appointment.date %>/<%= appointment.timeSlot %>?_method=DELETE" method="POST">
+                          <button class="reshedulebtn rounded-2 p-2">Delete the Appointment</button>
+                        </form>
                       </div>
                     </li>
                   <% }) %>
                 <% } %>
-                <li>
-                  <div class="appointment-card">
-                    <div class="appointment-date">June 2, 2023</div>
-                    <div class="appointment-time">2:30 PM</div>
-                    <div class="appointment-doctor">Dr. Jane Smith</div>
-                    <button class="reshedulebtn rounded-2 p-2"> Reshedule the Appointment</button>
-                  </div>
-                </li>
                 <!-- Add more list items for additional appointments -->
               </ul>
             </div>

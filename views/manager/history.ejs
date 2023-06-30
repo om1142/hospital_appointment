@@ -58,13 +58,14 @@
                   <th>Phone</th>
                   <th>Doctor Name</th>
                   <th>Report</th>
+                  <th>Delete</th>
                 </tr>
                 
               </thead>
               <tbody>
                 <% if (appointments1.length === 0) { %>
                   <tr>
-                    <td colspan="7" >No Appointments Found.</td>
+                    <td colspan="8" >No Appointments Found.</td>
                   </tr>
                 <% } else { %>
                   <% appointments1
@@ -129,6 +130,15 @@
                           <a href="/manager/<%= customer.phone %>/viewreport/<%= appointment.phone %>/<%= appointment.date %>/<%= appointment.timeSlot %>" style="text-decoration:none;">View Report</a>
                         <% } else { %>
                           <a href="/manager/<%= customer.phone %>/viewreport/<%= appointment.phone %>/<%= appointment.date %>/<%= appointment.timeSlot %>" style="text-decoration:none;"> Edit Report</a>
+                        <% } %>
+                      </td>
+                      <!-- Inside the table row -->
+                      <td><% if (appointment.reportVisited) { %>
+                          <p>Dam hai to karke Dikha Delete</p>
+                        <% } else { %>
+                        <form action="/manager/<%= customer.phone %>/history/<%= appointment.phone %>/<%= appointment.date %>/<%= appointment.timeSlot %>?_method=DELETE" method="POST">
+                          <button type="submit">Delete</button>
+                        </form>
                         <% } %>
                       </td>
                     </tr>
