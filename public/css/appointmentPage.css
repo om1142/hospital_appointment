@@ -51,12 +51,7 @@
   margin-bottom: 20px;
 }
 
-label {
-  display: block;
-  color: #555;
-  font-size: 18px;
-  margin-bottom: 5px;
-}
+
 
 .inputapp,
 select {
@@ -151,17 +146,6 @@ input[type="radio"] {
   display: none;
 }
 
-label {
-  display: block;
-  padding: 13px;
-  margin: 10px;
-  background-color: #f1f1f1;
-  cursor: pointer;
-  border: #1977cc;
-  border-style: solid;
-  border-radius: 10px;
-}
-
 label:hover {
   background-color: #e5e5e5;
 }
@@ -216,6 +200,17 @@ label.selected {
 /* Add hover effect for better user experience */
 .time-slots label:hover {
   cursor: pointer;
+}
+
+.time-slots label{
+  display: block;
+  padding: 13px;
+  margin: 10px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  border: #1977cc;
+  border-style: solid;
+  border-radius: 10px;
 }
 
 label.booked {
