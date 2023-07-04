@@ -116,3 +116,7 @@ input {
   .bg-lblue{
     background-color: rgb(95, 179, 190);
   }
+
+  .bg-about{
+    background-color: rgba(137, 222, 211, 0.366);
+  }
