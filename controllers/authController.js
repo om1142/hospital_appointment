@@ -673,7 +673,7 @@ const manager_report_post = async (req, res) => {
                       };
                     });
 
-                res.status(200).render('manager/index', { customer: manager,appointments1:appointmentsWithReports1,appointments2:appointmentsWithReports2, err: `Report saved`  });
+                res.status(200).render('manager/index', { customer: manager,appointments1:appointmentsWithReports1,appointments2:appointmentsWithReports2, err: `Report saved Successfully`  });
                 // res.status(200).render('manager/index', {  customer: manager, err: `Report saved`  });
                 // res.status(201).render('login', { err: 'Your account is succesfully created.' });
             }).catch((err) => {
