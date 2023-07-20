@@ -36,7 +36,7 @@
           <div id="step1">
             <h2>Step 1: Enter Date</h2>
             <input class="inputapp" type="date" id="date">
-            <button class="buttonapp" type="button" onclick="nextStep(2)">Next <i class="bi bi-arrow-right" style="padding-left: 5px;"></i></button>
+            <button class="buttonapp" type="button" onclick="validateStep1()">Next <i class="bi bi-arrow-right" style="padding-left: 5px;"></i></button>
           </div>
 
           <div id="step2" style="display: none;">
@@ -47,7 +47,7 @@
               <option value="Dr. Jane Smith">Dr. Jane Smith</option>
             </select>
             <button class="buttonapp" type="button" onclick="previousStep()"><i class="bi bi-arrow-left" style="padding-right: 5px;"></i> Go Back</button>
-            <button class="buttonapp" type="button" onclick="nextStep(3)">Next <i class="bi bi-arrow-right" style="padding-left: 5px;"></i></button>
+            <button class="buttonapp" type="button" onclick="validateStep2()">Next <i class="bi bi-arrow-right" style="padding-left: 5px;"></i></button>
           </div>
 
           <div id="step3" style="display: none;">
@@ -130,7 +130,7 @@
               <label for="slot24">4:40 PM</label>
             </div>
             <button class="buttonapp" type="button" onclick="previousStep()"><i class="bi bi-arrow-left" style="padding-right: 5px;"></i> Go Back</button>
-            <button class="buttonapp" type="button" onclick="nextStep(4)">Next <i class="bi bi-arrow-right" style="padding-left: 5px;"></i></button>
+            <button class="buttonapp" type="button" onclick="validateStep3()">Next <i class="bi bi-arrow-right" style="padding-left: 5px;"></i></button>
           </div>
 
           <div id="step4" style="display: none;">
@@ -138,7 +138,7 @@
             <input class="inputapp" type="text" id="fullname" placeholder="Patient Name">
             <input class="inputapp" type="text" id="number" placeholder="Mobile Number">
             <button class="buttonapp" type="button" onclick="previousStep()"><i class="bi bi-arrow-left" style="padding-right: 5px;"></i> Go Back</button>
-            <button class="buttonapp" type="button" id="submit-button">Submit</button>
+            <button class="buttonapp" type="button" id="submit-button" onclick="validateStep4()">Submit</button>
           </div>
 
         </form>
@@ -228,16 +228,62 @@
     GcurrentStep -= 1;
   }
 
-  document.getElementById('submit-button').addEventListener('click', () => {
+  function validateStep1() {
+    var dateInput = document.getElementById("date");
+    if (dateInput.value === "") {
+      alert("Please Enter a Date.");
+      return;
+    }
+    nextStep(2);
+  }
+
+  function validateStep2() {
+    var doctorSelect = document.getElementById("doctor");
+    if (doctorSelect.value === "") {
+      alert("Please Select a Doctor.");
+      return;
+    }
+    nextStep(3);
+  }
+
+  function validateStep3() {
+    var timeSlots = document.getElementsByName("time-slot");
+    var selectedTimeSlot = false;
+    for (var i = 0; i < timeSlots.length; i++) {
+      if (timeSlots[i].checked) {
+        selectedTimeSlot = true;
+        break;
+      }
+    }
+    if (!selectedTimeSlot) {
+      alert("Please Select a Time slot.");
+      return;
+    }
+    nextStep(4);
+  }
+
+  function validateStep4() {
+    var fullNameInput = document.getElementById("fullname");
+    var numberInput = document.getElementById("number");
+    if (fullNameInput.value === "" || numberInput.value === "") {
+      alert("Please Enter Patient Details.");
+      return;
+    }
+    // Form validation successful, submit the form or perform further actions.
+    // document.getElementById("appointment-form").submit();
+    submitForm();
+  }
+
+  function submitForm() {
     const fullname = document.getElementById('fullname').value;
     const number = document.getElementById('number').value;
     const timeSlot = document.querySelector('input[name="time-slot"]:checked').value;
 
     // Validate the input fields
-    if (fullname === '' || number === '') {
-      alert('Please enter patient name and mobile number');
-      return;
-    }
+    // if (fullname === '' || number === '') {
+    //   alert('Please enter patient name and mobile number');
+    //   return;
+    // }
 
     // Create an object to store the appointment details
     const appointment = {
@@ -272,7 +318,7 @@
       document.getElementById('appointment-form').reset();
       currentStep = 1;
       nextStep(currentStep);
-    });
+  }
 </script>
 
 <%- include('../partials/footer') %>

@@ -118,9 +118,13 @@
                         <%= `${day}/${month}/${year}` %></div>
                         <div class="appointment-time"><%= appointment.timeSlot %></div>
                         <div class="appointment-doctor"><%= appointment.doctor %></div>
-                        <form action="/customer/<%= customer.phone %>/index/<%= appointment.phone %>/<%= appointment.date %>/<%= appointment.timeSlot %>?_method=DELETE" method="POST">
-                          <button class="reshedulebtn rounded-2 p-2">Delete the Appointment</button>
-                        </form>
+                        
+                        <% const today = new Date(); %>
+                        <% if (today < appointment.date) { %>
+                          <form action="/customer/<%= customer.phone %>/index/<%= appointment.phone %>/<%= appointment.date %>/<%= appointment.timeSlot %>?_method=DELETE" method="POST">
+                            <button class="reshedulebtn rounded-2 p-2">Delete the Appointment</button>
+                          </form>
+                        <% } %>
                       </div>
                     </li>
                   <% }) %>

@@ -133,14 +133,17 @@
                         <% } %>
                       </td>
                       <!-- Inside the table row -->
-                      <td><% if (appointment.reportVisited) { %>
-                          <p>Dam hai to karke Dikha Delete</p>
+                      <td>
+                        <% const today = new Date(); %>
+                        <% if (appointment.reportVisited || today > appointment.date) { %>
+                            <p>Delete Option Unavailable</p>
                         <% } else { %>
-                        <form action="/manager/<%= customer.phone %>/history/<%= appointment.phone %>/<%= appointment.date %>/<%= appointment.timeSlot %>?_method=DELETE" method="POST">
-                          <button type="submit">Delete</button>
-                        </form>
+                          <form action="/manager/<%= customer.phone %>/history/<%= appointment.phone %>/<%= appointment.date %>/<%= appointment.timeSlot %>?_method=DELETE" method="POST">
+                            <button type="submit">Delete</button>
+                          </form>
                         <% } %>
                       </td>
+                      
                     </tr>
                   <% }) %>
                 <% } %>

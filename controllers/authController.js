@@ -127,6 +127,7 @@ const login_post = async (req, res) => {
                     const token = createToken(customer._id);
                     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
                     const today = new Date();
+                    today.setHours(0, 0, 0, 0);
                     const upcomingAppointments = await Appointment.find({ phone: phone, date: { $gte: today } });
                     res.status(201).render('customer/index', { customer, upcomingAppointments, err: 'You have logged in successfully.' });
                 }
@@ -341,6 +342,7 @@ const customer_get = async (req, res) => {
         }
         else{
             const today = new Date();
+            today.setHours(0, 0, 0, 0);
             const upcomingAppointments = await Appointment.find({ phone: phone, date: { $gte: today } });
             res.render('customer/index', { customer: customer, upcomingAppointments, err: undefined });
         }
@@ -559,8 +561,11 @@ const createAppointment = async(req, res) => {
 // Controller method to create a new appointment
 const createAppointment_manager = async(req, res) => {
     const { date, doctor, timeSlot,fullname,phone } = req.body;
+    const phone1 = req.params.phone;
     console.log("in createappointment_manager");
     console.log(req.body);
+    const manager = await User.findOne({ phone:phone1 });
+    console.log(phone1);
   
     // Create a new Appointment record
     const appointment = new Appointment({
@@ -572,13 +577,17 @@ const createAppointment_manager = async(req, res) => {
     });
   
     // Save the appointment to the database
-    appointment.save()
-      .then(() => {
-        res.json({ message: 'Appointment created successfully' });
-      })
-      .catch((error) => {
-        res.status(500).json({ error: 'Failed to create appointment' });
-      });
+        console.log("me aa gya");
+        appointment.save()
+        .then(() => {
+            res.json({ message: 'Appointment created successfully' });
+
+        })
+        .catch((error) => {
+            console.log("kahi error to nahi");
+            res.status(500).json({ error: 'Failed to create appointment' });
+        });
+
 };
 
 
@@ -598,9 +607,7 @@ const manager_report_get = async (req, res) => {
             res.status(404).render('404', { err: 'Customer not found' });
         }
     } catch (error) {
-        // console.log(error);
-        // res.send("Customer not found");
-        res.status(404).render('404', { err: 'customer_faq_get error' });
+        console.log(error);
     }
 }
 
@@ -627,19 +634,6 @@ const manager_report_post = async (req, res) => {
             timeSlot: patient1.timeSlot,
             visited: true
         });
-        //verify username and email in the database if already exists
-
-        //const foundUser = await User.findOne({ username: user.username });
-        //const foundUser = await Appointment.findOne({ phone: report.phone });
-        //const customer = await User.findOne({phone})
-         //console.log(foundUser);
-         //console.log(report);
-        // console.log(foundUser.phone);
-        // console.log(report.phone);
-        // console.log((foundUser.phone===report.phone) && (report.timeSlot===foundUser.timeSlot) && (report.doctor===foundUser.doctor));
-        // console.log(report.date);
-        // console.log(foundUser.date);
-        // console.log(new Date(report.date).getTime()===new Date(foundUser.date).getTime());
 
         if (manager ) {
             console.log("andar to jay 6e");
@@ -674,8 +668,6 @@ const manager_report_post = async (req, res) => {
                     });
 
                 res.status(200).render('manager/index', { customer: manager,appointments1:appointmentsWithReports1,appointments2:appointmentsWithReports2, err: `Report saved`  });
-                // res.status(200).render('manager/index', {  customer: manager, err: `Report saved`  });
-                // res.status(201).render('login', { err: 'Your account is succesfully created.' });
             }).catch((err) => {
                 console.log(err);
             }
@@ -686,11 +678,6 @@ const manager_report_post = async (req, res) => {
             const err = 'Appointment is not booked yet.';
             res.status(500).render('manager/report', {customer: manager, err });
         }
-        
-
-    // } catch (error) {
-    //     res.status(404).render('404', { err: "Signup_post error" });
-    // }
 }
   
 const viewreport_get = async (req, res) => {
