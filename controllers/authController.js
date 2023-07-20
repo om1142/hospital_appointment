@@ -850,6 +850,7 @@ const customer_delete_appointment = async (req, res) => {
     try {
         const phone = req.params.phone;
       const phone1 = req.params.phone1;
+      const customer = await User.findOne({ phone: phone });
       const appointmentDate = req.params.date;
       const appointmentTimeSlot = req.params.timeSlot;
       const deletedAppointment = await Appointment.findOneAndDelete({
@@ -861,7 +862,11 @@ const customer_delete_appointment = async (req, res) => {
       console.log(phone)
       
       if (deletedAppointment) {
-        res.redirect(`/customer/${phone}`);
+        // res.redirect(`/customer/${phone}`);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const upcomingAppointments = await Appointment.find({ phone: phone, date: { $gte: today } });
+        res.render('customer/index', { customer: customer, upcomingAppointments, err: 'Appointment Deleted Successfully' });
       } else {
         res.status(404).render('404', { err: 'Appointment not found' });
       }
