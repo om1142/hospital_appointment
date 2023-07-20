@@ -8,26 +8,11 @@
     <%- include('../partials/nav_home_customer') %>
   </div>
 
-
-      <!-- <div class="container">
-
-
-        <div class="row mb-5">
-          <div class="col-12 col-lg-3">
-            <div class="list-group text-center make-sticky ">
-        
-                
-        </div> -->
-        
-        <!-- <p class="text-center" style="padding-top: 100px; color: darkblue; text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5); font-size: 70px;"> Welcome "username" </p> -->
-
           <div class="col-12">
 
             <div class="container text-center fs-2 mb-5">
               Welcome, 
                 <%= customer.fullname%>
-                <!-- , </br> <span class="fs-3">Look what delicious items are waiting for
-                you.</span> -->
             </div>
             <% if(err)  {%>
 
@@ -135,7 +120,7 @@
       
             <div class="quick-book-container text-center p-5">
               <h2 class="p-2">Quickly Book an Appointment by clicking below:</h2>
-              <a href="#" class="book-appointment-btn">Book Now</a>
+              <a href="/customer/<%=customer.phone%>/appointment" class="book-appointment-btn">Book Now</a>
             </div>
       
             
