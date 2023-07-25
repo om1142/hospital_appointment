@@ -11,9 +11,6 @@ const requireAuth = (req, res, next) => {
                 console.log(err.message);
                 res.status(500).render('login' , {err: 'Authentication Error'});
             } else {
-                // console.log("Vrund");
-                // console.log("Vrund");
-                // console.log(decodedToken);
                 console.log(req.params);
                 const phone = req.params.phone;
                 console.log("deep");
@@ -49,7 +46,6 @@ const checkUser = (req, res, next) => {
                 res.locals.user = null;
                 next();
             } else {
-                // console.log(decodedToken);
                 let user = await User.findById(decodedToken.id);
                 res.locals.user = user;
                 next();
