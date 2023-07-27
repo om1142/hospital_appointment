@@ -11,22 +11,20 @@ const requireAuth = (req, res, next) => {
                 console.log(err.message);
                 res.status(500).render('login' , {err: 'Authentication Error'});
             } else {
-                console.log(req.params);
+                // console.log(req.params);
                 const phone = req.params.phone;
-                console.log("deep");
-                console.log(res.locals.user);
-                console.log(phone);
-                console.log("deep");
+                // console.log(res.locals.user);
+                // console.log(phone);
+                
 
                 const fraud = await User.findOne({ phone: phone });
-                console.log(fraud);
+                // console.log(fraud);
                 if (fraud && fraud.phone == res.locals.user.phone) {
                     next();
                 }
                 else {
-                    console.log("Bhai Bhai");
+                    //  console.log("Bhai Bhai");
                     res.status(500).render('login' , {err: 'Login Required'});
-
                 }
                 // next();
             }
